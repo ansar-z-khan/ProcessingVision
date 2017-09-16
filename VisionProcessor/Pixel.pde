@@ -22,4 +22,13 @@ class Pixel{
   float getBlue(){
     return blue(colour);
   }
+  float getSquaredRed(){
+    return pow(red(colour),2);
+  }
+  float getSquaredGreen(){
+    return pow(green(colour),2);
+  }
+  float getSquaredBlue(){
+    return pow(blue(colour),2);
+  }
 }
