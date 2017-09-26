@@ -5,14 +5,14 @@ class Finder {
   
   //This is the main function that should be called by other classes on the outside
   public ArrayList <Pixel> getPixels(PImage image){
-   return getGreenPixels(image);
+   return findGreenPixels(image);
   }
   
   //Gets Green Pixels
-  protected ArrayList <Pixel> getGreenPixels(PImage img) {
+  protected ArrayList <Pixel> findGreenPixels(PImage img) {
     ArrayList <Pixel> greenPixels = new ArrayList<Pixel>();//Declare a templist for pixels found
-    for (int i = 0; i<img.width; i += 2) {//Iterate throough width
-      for (int j = 0; j<img.height; j += 2) {//Iterate through Height
+    for (int i = 0; i<img.width; i += pixelsToSkip) {//Iterate throough width
+      for (int j = 0; j<img.height; j += pixelsToSkip) {//Iterate through Height
         Pixel currentPixel = new Pixel(i, j, img.get(i, j));//Store Current Pixel
         if (isGreen(currentPixel, VisionProcessor.threshold)) {//Check if pixel is green
           greenPixels.add(currentPixel);//Add to the list of pixels
