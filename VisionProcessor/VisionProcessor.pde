@@ -16,16 +16,18 @@ Pseudocode
 private VideoFinder capture;
 private ArrayList<Blob> blobs = new ArrayList<Blob>();
 private ArrayList<Pixel> greenPixels = new ArrayList<Pixel>();
+
+private BlobProcessor blobProcessor = new BlobProcessor(blobs);
 //Low Number = More Stuff
 //High Number = Less Stuff
-public static final double threshold = 110;
+public static final double threshold = 110+10;
 public static final float pixelsToSkip = 2;
 
-private final double maxBlobs = 10;
+private final double maxBlobs = 1000;
 
 private int step = 1;
 
-private boolean frameByFrame = false;
+private boolean frameByFrame = true;
 
 
 
@@ -45,7 +47,7 @@ void setup() {
   rectMode(CORNERS);
   noFill();
   stroke(0, 0, 0);
-  
+
   //VideoFinder foo = new VideoFinder(true);
   delay(1000);
 } 
@@ -57,11 +59,11 @@ void draw() {
 
   switch(step) {
 
-  case 1://Draws the raw image from the stream 
+  case 1://Draws the raw image from the stream, get green Pixels 
     background(255);
     capture.updateImage();//Get New Image From Camera
     capture.drawImage(width/2, 0);//Draw Image
-    
+
     for (Blob b : blobs) {
       b.show();
       //println (b.pixels.size() + ", " + greenPixels.size());
@@ -69,18 +71,12 @@ void draw() {
     }
     displayGreen(greenPixels);//Draw Green Pixels
     blobs.clear();
-    if (frameByFrame) {
-      step++;
-      break;
-    }
-
-  case 2://Calculates Green Pixels
     greenPixels = capture.getGreenPixels();
     if (frameByFrame) {
       step++;
       break;
     }
-  case 3://Calculate Blobs
+  case 2://Calculate Blobs
     ArrayList<Boolean> blobCheck = new ArrayList<Boolean>();
     if (blobs.size()<1 && greenPixels.size()>0) {
       blobs.add(new Blob(greenPixels.get(0)));
@@ -92,13 +88,15 @@ void draw() {
       //println("**********************");
       addBlob(0, 0, blobCheck);
     }
+    blobProcessor.mergeAll();
+    blobProcessor.deleteAll();
+
     if (frameByFrame) {
       step=1;
       break;
-    }   
-
+    }
   }
- //println(blobs.size() + " blobs and " + greenPixels.size() + " pixels");
+  println(blobs.size() + " blobs and " + greenPixels.size() + " pixels");
   /*
   for (Pixel p : greenPixels) {
    for (Blob b : blobs){
@@ -121,10 +119,18 @@ private void displayGreen(ArrayList <Pixel> pixels) {
 }
 
 private void addBlob (int blob, int pixel, ArrayList<Boolean> blobCheck) {
+  //println ("Blob " + blob + "/" +  (blobs.size()-1) + ": Pixel " + pixel + "/" +  (greenPixels.size()-1));
+  println("blob = " + blob + " blob size = " + blobs.size() + " pixel = " + pixel + " size = " + greenPixels.size() );
+  //if (blob >= blobs.size()-1 && pixel >= greenPixels.size()-1 ) {
+  //return;
+  //}
+
+  boolean added = false;
   if (blobs.get(blob).isPartOf(greenPixels.get(pixel))) {
     //println("*****************true********************");
     blobs.get(blob).addToBlob(greenPixels.get(pixel));
     blobCheck.set(blob, true);
+    added = true;
   } else {
     if (blobs.size() < maxBlobs) {
       //println(true);
@@ -142,6 +148,7 @@ private void addBlob (int blob, int pixel, ArrayList<Boolean> blobCheck) {
     return;
   }
 
+
   /*
   if (pixel == greenPixels.size()-1) {
    if (blob != blobs.size()-1) {
@@ -151,9 +158,19 @@ private void addBlob (int blob, int pixel, ArrayList<Boolean> blobCheck) {
    addBlob(blob, pixel+1);
    }*/
 
+  //next pixel
   if (blob == blobs.size()-1) {
     addBlob(0, pixel+1, blobCheck);
   } else {
-    addBlob(blob+1, pixel, blobCheck);
+    //if (!added) {
+      //next blob
+      addBlob(blob+1, pixel, blobCheck);
+    ///} else {
+     // if (pixel == greenPixels.size()-1){
+       // return;
+        //}
+
+    //  addBlob(0, pixel+1, blobCheck);
+   // }
   }
 }

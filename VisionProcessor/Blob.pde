@@ -3,10 +3,14 @@ class Blob {
   ArrayList <Pixel> pixels = new ArrayList<Pixel>();
   PVector size;
   PVector center;
+  private boolean deleted = false;
   private PVector minBounds;
   private PVector maxBounds;
-  float density;
-
+  private float density;
+  private float area;
+  
+  private final int TOLERANCE = 2;
+  
 
   Blob(Pixel p) {
     pixels.add(p);
@@ -15,6 +19,8 @@ class Blob {
     maxBounds = new PVector(p.pos.x, p.pos.y);
     size = new PVector(1, 1);
   }
+  
+
 
   boolean isPartOf (Pixel p) {
 
@@ -30,11 +36,16 @@ class Blob {
 
     //updateSize();
     //int errorRange = 5;
+    return (minBounds.x-(TOLERANCE) <= p.pos.x && 
+      p.pos.x <= maxBounds.x+(TOLERANCE) && 
+      minBounds.y-(TOLERANCE) <= p.pos.y && 
+      p.pos.y <= maxBounds.y+(TOLERANCE));
 
-    return (minBounds.x-( (size.x/5)+5) <= p.pos.x && 
+  /*  return (minBounds.x-( (size.x/5)+5) <= p.pos.x && 
       p.pos.x <= maxBounds.x+( (size.x/5)+5) && 
       minBounds.y-( (size.y/5)+5) <= p.pos.y && 
       p.pos.y <= maxBounds.y+( (size.y/5+5) ) );
+   */
   }
 
   boolean contains(Pixel p) {
@@ -52,8 +63,13 @@ class Blob {
 
     size.x = maxBounds.x - minBounds.x;
     size.y = maxBounds.y - minBounds.y;
-    density = ((pixels.size()*(2*pixelsToSkip)) / (size.x * size.y));
-    println("Area: " + size.x * size.y +", Pixel Length: "+ pixels.size() + ", Density: " + density);
+
+    //println("Area: " + size.x * size.y +", Pixel Length: "+ pixels.size() + ", Density: " + density);
+  }
+  
+  void setDensity(){
+    area = size.x * size.y;
+    density = ((pixels.size()*(2*pixelsToSkip)) / (area));
   }
 
   void addToBlob(Pixel p) {
@@ -81,11 +97,19 @@ class Blob {
   void show() {
     //Pixel topLeft = pixels.get(0);
     //Pixel bottomRight = pixels.get(pixels.size()-1);
-    fill(255 - (255*density));
-    //noFill();
+   // fill(255 - (255*density));
+    noFill();
     rect(minBounds.x, minBounds.y, maxBounds.x, maxBounds.y);
   }
-
+  
+  void setDeleted(){
+    deleted = true;
+  }
+  
+  boolean getDeleted(){
+    return deleted;
+  }
+    
   void update() {
     updateSize();
   }

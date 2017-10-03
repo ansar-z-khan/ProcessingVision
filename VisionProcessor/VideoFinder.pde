@@ -9,10 +9,6 @@ class VideoFinder extends Finder {
   private PImage currentImage;
 
 
-
-
-
-
   //Call This Constructor to print out all cameras, The code will crash, but choose the camera you want and call the constructor with the int
   VideoFinder(boolean getCamNumber) {
     printAvailableCams(Capture.list());

@@ -1,6 +1,6 @@
 
 
-class Finder {
+protected class Finder {
   
   
   //This is the main function that should be called by other classes on the outside
