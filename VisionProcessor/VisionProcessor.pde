@@ -21,35 +21,41 @@ private BlobProcessor blobProcessor = new BlobProcessor(blobs);
 //Low Number = More Stuff
 //High Number = Less Stuff
 
-public static final double threshold = 110+10;
-public static final float pixelsToSkip = 2;
+public static final double threshold = 120+10;
+public static final float pixelsToSkip = 6;
 
 private final double maxBlobs = 1000;
 
 private int step = 1;
 
-private boolean frameByFrame = true;
+private boolean frameByFrame = false;
 
 
 
 void setup() {
-  size(160, 45);//change this according to your camera resolution, and double the width
+  //size(160, 45);//change this according to your camera resolution, and double the width
   //size(320, 120);WINNIE Cam
+  size(320, 120);
+  frameRate(5);
   //Pass the Index of the Camera in the Constructor
   //See The VideoFinder class for instructios on where to get this numbers
   //Ansar's webcam
-  capture = new VideoFinder(13);
+  //capture = new VideoFinder(13);
   //robot's cam
   //capture = new VideoFinder(44);
 
   //Winnie's webcam
   //capture = new VideoFinder(2);
+  
+  //Druiven's cam
+  capture = new VideoFinder(3);
 
   rectMode(CORNERS);
   noFill();
   stroke(0, 0, 0);
 
   //VideoFinder foo = new VideoFinder(true);
+  //delay(1000);
 } 
 
 
@@ -88,7 +94,7 @@ void draw() {
       //println("**********************");
       addBlob(0, 0, blobCheck);
     }
-    blobProcessor.mergeAll();
+    //blobProcessor.mergeAll();
     blobProcessor.deleteAll();
 
     if (frameByFrame) {
@@ -97,7 +103,7 @@ void draw() {
     }
   }
   println(blobs.size() + " blobs and " + greenPixels.size() + " pixels");
-  //delay(1250);
+//  delay(5000);
   /*
   for (Pixel p : greenPixels) {
    for (Blob b : blobs){
@@ -121,7 +127,7 @@ private void displayGreen(ArrayList <Pixel> pixels) {
 
 private void addBlob (int blob, int pixel, ArrayList<Boolean> blobCheck) {
   //println ("Blob " + blob + "/" +  (blobs.size()-1) + ": Pixel " + pixel + "/" +  (greenPixels.size()-1));
-  println("blob = " + blob + " blob size = " + blobs.size() + " pixel = " + pixel + " size = " + greenPixels.size() );
+  //println("blob = " + blob + " blob size = " + blobs.size() + " pixel = " + pixel + " size = " + greenPixels.size() );
   //if (blob >= blobs.size()-1 && pixel >= greenPixels.size()-1 ) {
   //return;
   //}

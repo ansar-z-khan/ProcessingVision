@@ -9,7 +9,7 @@ class Blob {
   private float density;
   private float area;
   
-  private final int TOLERANCE = 2;
+  private final int TOLERANCE = 6;
   
 
   Blob(Pixel p) {
@@ -73,9 +73,10 @@ class Blob {
   }
 
   void addToBlob(Pixel p) {
-    if (this.contains(p)) {
-      return;
-    }
+  //may not be needed
+   // if (this.contains(p)) {
+   //   return;
+   // }
     pixels.add(p);
     center = pixels.get(pixels.size()/2).pos;
 

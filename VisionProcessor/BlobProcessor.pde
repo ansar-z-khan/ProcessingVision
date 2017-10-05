@@ -46,9 +46,9 @@ class BlobProcessor {
 
   void merge(int a, int b) {
     //println(a + " " + b);
-    Blob blobA = blobs.get(a);
+    Blob blobA = blobs.get(a);//get the blobs
     Blob blobB = blobs.get(b);
-    if ((!blobA.getDeleted()) && (!blobA.getDeleted())) {
+    if ((!blobA.getDeleted()) && (!blobB.getDeleted())) {
       if (overlapping(blobA, blobB)) {
         combine(blobA, blobB);
       }
