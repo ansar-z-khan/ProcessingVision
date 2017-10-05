@@ -14,6 +14,7 @@ class BlobProcessor {
 
   void mergeAll() {
     if (blobs.size()>1) {
+      println("Calling merge all at " + blobs.size());
       merge(blobs.size()-2, blobs.size()-1);
     }
   }
@@ -24,6 +25,8 @@ class BlobProcessor {
       if (blobs.get(i).getDeleted()) {
         blobs.remove(i);
         blobSize--;
+        println ("Deleted Blobs");
+        
       }
     }
   }
@@ -31,12 +34,12 @@ class BlobProcessor {
 
   void combine(Blob a, Blob b) {
     for (Pixel p : a.pixels) {
-      if (!b.pixels.contains(p)) {
+      //if (!b.pixels.contains(p)) {
         b.pixels.add(p);
-      }
+      //}
     }
     //removing
-    println ("Removing");
+    println ("Copied Pixels");
     //blobs.remove(a);
     a.setDeleted();
   }
@@ -45,10 +48,9 @@ class BlobProcessor {
     //println(a + " " + b);
     Blob blobA = blobs.get(a);
     Blob blobB = blobs.get(b);
-    if (!blobA.getDeleted()&& !blobA.getDeleted()) {
+    if ((!blobA.getDeleted()) && (!blobA.getDeleted())) {
       if (overlapping(blobA, blobB)) {
         combine(blobA, blobB);
-        println ("Combining");
       }
     }
 
@@ -69,11 +71,13 @@ class BlobProcessor {
     PVector minB = b.minBounds;
     PVector maxA = a.maxBounds;
     PVector maxB = b.maxBounds;
-
-    return ((minA.x-MERGE_DIST < minB.x && minB.x < maxA.x+MERGE_DIST ||
-      minA.x-MERGE_DIST < maxB.x && maxB.x < maxA.x+MERGE_DIST) &&
-      (minA.y-MERGE_DIST < minB.y && minB.y < maxA.y+MERGE_DIST ||
-      minA.y-MERGE_DIST < maxB.y && maxB.y < maxA.y+MERGE_DIST));
+    boolean isOverlapping = false;
+      
+     
+    return ((minA.x-MERGE_DIST <= minB.x && minB.x <= maxA.x+MERGE_DIST ||
+      minA.x-MERGE_DIST <= maxB.x && maxB.x <= maxA.x+MERGE_DIST) &&
+      (minA.y-MERGE_DIST <= minB.y && minB.y <= maxA.y+MERGE_DIST ||
+      minA.y-MERGE_DIST <= maxB.y && maxB.y <= maxA.y+MERGE_DIST));
 
     //}
   }

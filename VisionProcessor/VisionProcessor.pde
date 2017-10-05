@@ -20,6 +20,7 @@ private ArrayList<Pixel> greenPixels = new ArrayList<Pixel>();
 private BlobProcessor blobProcessor = new BlobProcessor(blobs);
 //Low Number = More Stuff
 //High Number = Less Stuff
+
 public static final double threshold = 110+10;
 public static final float pixelsToSkip = 2;
 
@@ -49,7 +50,6 @@ void setup() {
   stroke(0, 0, 0);
 
   //VideoFinder foo = new VideoFinder(true);
-  delay(1000);
 } 
 
 
@@ -97,6 +97,7 @@ void draw() {
     }
   }
   println(blobs.size() + " blobs and " + greenPixels.size() + " pixels");
+  //delay(1250);
   /*
   for (Pixel p : greenPixels) {
    for (Blob b : blobs){
@@ -162,15 +163,15 @@ private void addBlob (int blob, int pixel, ArrayList<Boolean> blobCheck) {
   if (blob == blobs.size()-1) {
     addBlob(0, pixel+1, blobCheck);
   } else {
-    //if (!added) {
+    if (!added) {
       //next blob
       addBlob(blob+1, pixel, blobCheck);
-    ///} else {
-     // if (pixel == greenPixels.size()-1){
-       // return;
-        //}
+    } else {
+      if (pixel == greenPixels.size()-1){
+        return;
+      }
 
-    //  addBlob(0, pixel+1, blobCheck);
-   // }
+      addBlob(0, pixel+1, blobCheck);
+    }
   }
 }
