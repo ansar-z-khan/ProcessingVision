@@ -8,9 +8,9 @@ class Blob {
   private PVector maxBounds;
   private float density;
   private float area;
-  
+
   private final int TOLERANCE = 4;
-  
+
 
   Blob(Pixel p) {
     pixels.add(p);
@@ -19,7 +19,7 @@ class Blob {
     maxBounds = new PVector(p.pos.x, p.pos.y);
     size = new PVector(1, 1);
   }
-  
+
 
 
   boolean isPartOf (Pixel p) {
@@ -41,11 +41,11 @@ class Blob {
       minBounds.y-(TOLERANCE) <= p.pos.y && 
       p.pos.y <= maxBounds.y+(TOLERANCE));
 
-  /*  return (minBounds.x-( (size.x/5)+5) <= p.pos.x && 
-      p.pos.x <= maxBounds.x+( (size.x/5)+5) && 
-      minBounds.y-( (size.y/5)+5) <= p.pos.y && 
-      p.pos.y <= maxBounds.y+( (size.y/5+5) ) );
-   */
+    /*  return (minBounds.x-( (size.x/5)+5) <= p.pos.x && 
+     p.pos.x <= maxBounds.x+( (size.x/5)+5) && 
+     minBounds.y-( (size.y/5)+5) <= p.pos.y && 
+     p.pos.y <= maxBounds.y+( (size.y/5+5) ) );
+     */
   }
 
   boolean contains(Pixel p) {
@@ -66,16 +66,16 @@ class Blob {
 
     //println("Area: " + size.x * size.y +", Pixel Length: "+ pixels.size() + ", Density: " + density);
   }
-  
-  void setDensity(){
+
+  void updateDensity() {
     area = size.x * size.y;
     density = ((pixels.size()*(2*pixelsToSkip)) / (area));
   }
 
   void addToBlob(Pixel p) {
-  //may not be needed
+    //may not be needed
     //if (this.contains(p)) {
-      //return;
+    //return;
     //}
     pixels.add(p);
     center = pixels.get(pixels.size()/2).pos;
@@ -92,38 +92,47 @@ class Blob {
     if (p.pos.y > maxBounds.y) {
       maxBounds.y = p.pos.y;
     }
-    updateSize();
+    update();
   }
 
   void show() {
     //Pixel topLeft = pixels.get(0);
     //Pixel bottomRight = pixels.get(pixels.size()-1);
-   // fill(255 - (255*density));
+    // fill(255 - (255*density));
     noFill();
     rect(minBounds.x, minBounds.y, maxBounds.x, maxBounds.y);
-    
+
     rect(minBounds.x + width/2, minBounds.y, maxBounds.x + width/2, maxBounds.y);
   }
-  
+
   void show(int red, int green, int blue) {
     //Pixel topLeft = pixels.get(0);
     //Pixel bottomRight = pixels.get(pixels.size()-1);
-   // fill(255 - (255*density));
+    // fill(255 - (255*density));
     //noFill();
     stroke(red, green, blue);
     rect(minBounds.x, minBounds.y, maxBounds.x, maxBounds.y);
     stroke(0);
   }
-  
-  void setDeleted(){
+
+  double getWidth() {
+    return maxBounds.x - minBounds.x;
+  }
+  double getHeight() {
+    return maxBounds.y - minBounds.y;
+  }
+
+  void setDeleted() {
     deleted = true;
   }
-  
-  boolean getDeleted(){
+
+  boolean getDeleted() {
     return deleted;
   }
-    
+
   void update() {
     updateSize();
+    updateDensity();
+    
   }
 }

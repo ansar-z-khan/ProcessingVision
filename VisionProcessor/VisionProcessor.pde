@@ -36,19 +36,19 @@ private boolean operational = false;
 
 
 void setup() {
-  //size(160, 45);//change this according to your camera resolution, and double the widtht
-  size(320, 120);
+  size(160, 45);//change this according to your camera resolution, and double the widtht
+  //size(320, 120);
   frameRate(30);
   //Pass the Index of the Camera in the Constructor
   //See The VideoFinder class for instructios on where to get this numbers
   //Ansar's webcam
-  //capture = new VideoFinder(13);
+  capture = new VideoFinder(13);
   //robot's webcam
   //capture = new VideoFinder(44);
 
   //Winnie's webcam
   //capture = new VideoFinder(8);   //15fps
-  capture = new VideoFinder(9);   //30fps
+  //capture = new VideoFinder(9);   //30fps
   
   //Druiven's cam
   //capture = new VideoFinder(3);
@@ -66,11 +66,12 @@ void setup() {
 
 void draw() {  
 
+  /*
   if (!operational && millis() > 7000) {
     //add commands in case that video provides blank output
-    exit();
+    //exit();
   }
-
+*/
   switch(step) {
 
   case 1://Draws the raw image from the stream, get green Pixels 
@@ -87,10 +88,11 @@ void draw() {
     blobs.clear();
     greenPixels = capture.getGreenPixels();
     
+    /*
     if (!operational && millis() < 5000 && greenPixels.size() != 0) {
       operational = true;
     }
-    
+    */
     if (frameByFrame) {
       step++;
       break;
@@ -114,8 +116,8 @@ void draw() {
       println("amount of pixels added = " + timesAdded);
       delay(1000);
     }*/
-    blobProcessor.mergeAll();
-    blobProcessor.deleteAll();
+
+    blobProcessor.process();
 
     //println("end of case");
     if (frameByFrame) {
