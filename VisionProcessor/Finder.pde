@@ -15,7 +15,9 @@ protected class Finder {
       for (int j = 0; j<img.height; j += pixelsToSkip) {//Iterate through Height
         Pixel currentPixel = new Pixel(i, j, img.get(i, j));//Store Current Pixel
         if (isGreen(currentPixel, VisionProcessor.threshold)) {//Check if pixel is green
-          greenPixels.add(currentPixel);//Add to the list of pixels
+          if (!greenPixels.contains(currentPixel) ) {
+            greenPixels.add(currentPixel);//Add to the list of pixels
+          }
         }
       }
     }

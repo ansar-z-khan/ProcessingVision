@@ -9,7 +9,7 @@ class Blob {
   private float density;
   private float area;
   
-  private final int TOLERANCE = 6;
+  private final int TOLERANCE = 4;
   
 
   Blob(Pixel p) {
@@ -74,9 +74,9 @@ class Blob {
 
   void addToBlob(Pixel p) {
   //may not be needed
-   // if (this.contains(p)) {
-   //   return;
-   // }
+    //if (this.contains(p)) {
+      //return;
+    //}
     pixels.add(p);
     center = pixels.get(pixels.size()/2).pos;
 
@@ -101,6 +101,18 @@ class Blob {
    // fill(255 - (255*density));
     noFill();
     rect(minBounds.x, minBounds.y, maxBounds.x, maxBounds.y);
+    
+    rect(minBounds.x + width/2, minBounds.y, maxBounds.x + width/2, maxBounds.y);
+  }
+  
+  void show(int red, int green, int blue) {
+    //Pixel topLeft = pixels.get(0);
+    //Pixel bottomRight = pixels.get(pixels.size()-1);
+   // fill(255 - (255*density));
+    //noFill();
+    stroke(red, green, blue);
+    rect(minBounds.x, minBounds.y, maxBounds.x, maxBounds.y);
+    stroke(0);
   }
   
   void setDeleted(){

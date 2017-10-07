@@ -6,7 +6,7 @@ class BlobProcessor {
   private final float MAX_DISTANCE = 6;
   private final float MIN_DENSITY = 0.2;
   private final float MIN_AREA = 15;
-  private final float MERGE_DIST = 0;
+  //private final float MERGE_DIST = 0;
 
   BlobProcessor(ArrayList<Blob> _blobs) {
     blobs = _blobs;
@@ -14,32 +14,74 @@ class BlobProcessor {
 
   void mergeAll() {
     if (blobs.size()>1) {
-      println("Calling merge all at " + blobs.size());
+      //println("Calling merge all at " + blobs.size() + " blobs");
+      //delay(500);
       merge(blobs.size()-2, blobs.size()-1);
     }
   }
 
   void deleteAll(){
+    /*
     int blobSize = blobs.size(); 
     for(int i = 0; i < blobSize; i++){
       if (blobs.get(i).getDeleted()) {
         blobs.remove(i);
         blobSize--;
         println ("Deleted Blobs");
-        
+      }
+    }*/
+    /*
+    fill(255, 0, 0);
+    for (Blob b : blobs) {
+      b.show(255, 0, 0);
+      //println (b.pixels.size() + ", " + greenPixels.size());
+      //b.clear();
+    }
+    noFill();
+    println("before delete");
+    delay(500);
+    */
+    for (int i = blobs.size()-1; i >= 0; i--) {
+      if (blobs.get(i).getDeleted()) {
+        blobs.remove(i);
+        //blobSize--;
+        //println ("Deleted Blobs");
+        //delay(500);
       }
     }
+    /*
+    for (Blob b : blobs) {
+      b.show(0, 255, 0);
+      //println (b.pixels.size() + ", " + greenPixels.size());
+      //b.clear();
+    }
+    println("after delete");
+    delay(500);
+    */
+    //println("blobs after delete = " + blobs.size() );
   }
 
 
   void combine(Blob a, Blob b) {
+    //a.show(true);
+    //b.show(true);
+    //println("before merge");
+    //delay(1000);
     for (Pixel p : a.pixels) {
       //if (!b.pixels.contains(p)) {
-        b.pixels.add(p);
+        b.addToBlob(p);
       //}
     }
+    /*
+    for (int i = 0; i < a.pixels.size(); i++) {
+      b.pixels.add(a.pixels.get(i) );
+    }*/
     //removing
-    println ("Copied Pixels");
+    //println ("Copied Pixels");
+    //delay(1000);
+    //a.show(true);
+    //b.show(true);
+    //delay(1000);
     //blobs.remove(a);
     a.setDeleted();
   }
@@ -71,14 +113,14 @@ class BlobProcessor {
     PVector minB = b.minBounds;
     PVector maxA = a.maxBounds;
     PVector maxB = b.maxBounds;
-    boolean isOverlapping = false;
+    //boolean isOverlapping = false;
       
      
-    return ((minA.x-MERGE_DIST <= minB.x && minB.x <= maxA.x+MERGE_DIST ||
-      minA.x-MERGE_DIST <= maxB.x && maxB.x <= maxA.x+MERGE_DIST) &&
-      (minA.y-MERGE_DIST <= minB.y && minB.y <= maxA.y+MERGE_DIST ||
-      minA.y-MERGE_DIST <= maxB.y && maxB.y <= maxA.y+MERGE_DIST));
-
-    //}
+    return ((minA.x-MAX_DISTANCE <= minB.x && minB.x <= maxA.x+MAX_DISTANCE ||
+      minA.x-MAX_DISTANCE <= maxB.x && maxB.x <= maxA.x+MAX_DISTANCE) &&
+      (minA.y-MAX_DISTANCE <= minB.y && minB.y <= maxA.y+MAX_DISTANCE ||
+      minA.y-MAX_DISTANCE <= maxB.y && maxB.y <= maxA.y+MAX_DISTANCE));
+    
+    
   }
 }
