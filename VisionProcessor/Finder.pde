@@ -1,6 +1,6 @@
 
 
-class Finder {
+protected class Finder {
   
   
   //This is the main function that should be called by other classes on the outside
@@ -15,11 +15,12 @@ class Finder {
       for (int j = 0; j<img.height; j += pixelsToSkip) {//Iterate through Height
         Pixel currentPixel = new Pixel(i, j, img.get(i, j));//Store Current Pixel
         if (isGreen(currentPixel, VisionProcessor.threshold)) {//Check if pixel is green
-          greenPixels.add(currentPixel);//Add to the list of pixels
+          if (!greenPixels.contains(currentPixel) ) {
+            greenPixels.add(currentPixel);//Add to the list of pixels
+          }
         }
       }
     }
-
     return greenPixels;
   }
   
@@ -35,5 +36,9 @@ class Finder {
     //println(rgb[1]/rgb[0] >= threshold/100 && rgb[1]/rgb[2] >= threshold/100);
 
     return (p.getSquaredGreen()/p.getSquaredRed() >= threshold/100 && p.getSquaredGreen()/p.getSquaredBlue() >= threshold/100);
+  }
+  protected boolean isGreenHSB(Pixel p, double threshold) {
+    return (p.getHue() > 90 && p.getHue() < 140) ;//Sat 75
+
   }
 }
