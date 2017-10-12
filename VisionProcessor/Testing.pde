@@ -25,11 +25,12 @@ Blob Class
   set pixel as new blob
   check with next index of green pixel
     if distance is less than set value, add in new green pixel into blob
-    else if distance is greater, create new blob with green pixel being tested
+    else if distance is greater, create new blob with green pixel being
     
-    
+ //Merging
+   -Sort blobs
+   -Check
+     -Find abssolute value of delta min.x, min.y, max.x, max.y 
+     -return true if delta is less than   
   
-
-
-
 */
