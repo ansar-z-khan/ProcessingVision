@@ -21,7 +21,6 @@ protected class Finder {
         }
       }
     }
-
     return greenPixels;
   }
   
@@ -37,5 +36,9 @@ protected class Finder {
     //println(rgb[1]/rgb[0] >= threshold/100 && rgb[1]/rgb[2] >= threshold/100);
 
     return (p.getSquaredGreen()/p.getSquaredRed() >= threshold/100 && p.getSquaredGreen()/p.getSquaredBlue() >= threshold/100);
+  }
+  protected boolean isGreenHSB(Pixel p, double threshold) {
+    return (p.getHue() > 90 && p.getHue() < 140) ;//Sat 75
+
   }
 }

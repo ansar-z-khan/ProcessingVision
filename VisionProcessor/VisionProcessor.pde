@@ -21,7 +21,7 @@ private BlobProcessor blobProcessor = new BlobProcessor(blobs);
 //Low Number = More Stuff
 //High Number = Less Stuff
 
-public static final double threshold = 110+30;
+public static final double threshold = 130;
 public static final float pixelsToSkip = 2;
 
 private final double maxBlobs = 1000;
@@ -56,6 +56,7 @@ void setup() {
   rectMode(CORNERS);
   noFill();
   stroke(0, 0, 0);
+  colorMode(HSB);
 
   //VideoFinder foo = new VideoFinder(true);
   //delay(1000);

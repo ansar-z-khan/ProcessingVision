@@ -1,10 +1,10 @@
 import java.util.*;
 
 class BlobProcessor {
-
+//Ansar is a faggot
   private ArrayList<Blob> blobs;
   private final float MAX_DISTANCE = 6;
-  private final float MIN_DENSITY = 0.25;
+  private final float MIN_DENSITY = 0.45;
   private final float MIN_AREA = 15;
   //private final float MERGE_DIST = 0;
 
@@ -136,4 +136,18 @@ class BlobProcessor {
       (minA.y-MAX_DISTANCE <= minB.y && minB.y <= maxA.y+MAX_DISTANCE ||
       minA.y-MAX_DISTANCE <= maxB.y && maxB.y <= maxA.y+MAX_DISTANCE));
   }
+  private void sortByArea(){
+    
+   for(int i = 0; i<blobs.size();i++){
+     
+   }
+  }
+  ArrayList<Blob> getRealBlobs(){
+      ArrayList<Blob> blobs = new ArrayList<Blob>();
+      return blobs;
+  }
+  
+  
+  
+  
 }

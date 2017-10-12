@@ -1,34 +1,43 @@
-class Pixel{
+class Pixel {
   PVector pos;
   color colour;
-  
-  Pixel(int x, int y, color c){
-    pos = new PVector(x,y);
+
+  Pixel(int x, int y, color c) {
+    pos = new PVector(x, y);
     colour = c;
   }
-  
-  PVector getPos(){
+
+  PVector getPos() {
     return pos;
   }
-  color getColour(){
+  color getColour() {
     return colour;
   }
-  float getRed(){
+  float getRed() {
     return red(colour);
   }
-  float getGreen(){
+  float getGreen() {
     return green(colour);
   }
-  float getBlue(){
+  float getBlue() {
     return blue(colour);
   }
-  float getSquaredRed(){
-    return pow(red(colour),2);
+  float getHue() {
+    return hue(colour);
   }
-  float getSquaredGreen(){
-    return pow(green(colour),2);
+  float getSaturation() {
+    return saturation(colour);
   }
-  float getSquaredBlue(){
-    return pow(blue(colour),2);
+  float getBrightness() {
+    return brightness(colour);
+  }
+  float getSquaredRed() {
+    return pow(red(colour), 2);
+  }
+  float getSquaredGreen() {
+    return pow(green(colour), 2);
+  }
+  float getSquaredBlue() {
+    return pow(blue(colour), 2);
   }
 }
