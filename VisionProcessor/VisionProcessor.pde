@@ -21,8 +21,13 @@ private BlobProcessor blobProcessor = new BlobProcessor(blobs);
 //Low Number = More Stuff
 //High Number = Less Stuff
 
-public static final double threshold = 130;
+public static final float threshold = 120;
 public static final float pixelsToSkip = 2;
+
+public static final float SAT = 70;
+public static final float BRIGHTNESS = 70;
+
+
 
 private final double maxBlobs = 1000;
 
@@ -31,7 +36,7 @@ private int step = 1;
 private boolean frameByFrame = true;
 
 private int timer = 0;
-private boolean operational = false;
+private boolean operational = true;
 
 
 
@@ -42,7 +47,7 @@ void setup() {
   //Pass the Index of the Camera in the Constructor
   //See The VideoFinder class for instructios on where to get this numbers
   //Ansar's webcam
-  capture = new VideoFinder(13);
+  //capture = new VideoFinder(13);
   //robot's webcam
   //capture = new VideoFinder(44);
 
@@ -50,6 +55,8 @@ void setup() {
   //capture = new VideoFinder(8);   //15fps
   //capture = new VideoFinder(9);   //30fps
   
+  //RObot Cam on Mac
+  capture = new VideoFinder(12);
   //Druiven's cam
   //capture = new VideoFinder(3);
 

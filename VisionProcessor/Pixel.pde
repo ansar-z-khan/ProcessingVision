@@ -27,6 +27,10 @@ class Pixel {
   }
   float getSaturation() {
     return saturation(colour);
+    
+  }
+  float getSat(){
+    return 100-getSaturation();
   }
   float getBrightness() {
     return brightness(colour);

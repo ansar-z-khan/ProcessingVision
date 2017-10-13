@@ -1,20 +1,20 @@
 
 
 protected class Finder {
-  
-  
+
+
   //This is the main function that should be called by other classes on the outside
-  public ArrayList <Pixel> getPixels(PImage image){
-   return findGreenPixels(image);
+  public ArrayList <Pixel> getPixels(PImage image) {
+    return findGreenPixels(image);
   }
-  
+
   //Gets Green Pixels
   protected ArrayList <Pixel> findGreenPixels(PImage img) {
     ArrayList <Pixel> greenPixels = new ArrayList<Pixel>();//Declare a templist for pixels found
     for (int i = 0; i<img.width; i += pixelsToSkip) {//Iterate throough width
       for (int j = 0; j<img.height; j += pixelsToSkip) {//Iterate through Height
         Pixel currentPixel = new Pixel(i, j, img.get(i, j));//Store Current Pixel
-        if (isGreen(currentPixel, VisionProcessor.threshold)) {//Check if pixel is green
+        if (isGreenHSB(currentPixel, VisionProcessor.threshold)) {//Check if pixel is green
           if (!greenPixels.contains(currentPixel) ) {
             greenPixels.add(currentPixel);//Add to the list of pixels
           }
@@ -23,7 +23,7 @@ protected class Finder {
     }
     return greenPixels;
   }
-  
+
   //Checks if a gicen p
   protected boolean isGreen(Pixel p, double threshold) {
     if (p.getGreen() <= p.getRed() || p.getGreen() <= p.getBlue() || p.getGreen()<=50 ) {
@@ -37,8 +37,26 @@ protected class Finder {
 
     return (p.getSquaredGreen()/p.getSquaredRed() >= threshold/100 && p.getSquaredGreen()/p.getSquaredBlue() >= threshold/100);
   }
-  protected boolean isGreenHSB(Pixel p, double threshold) {
-    return (p.getHue() > 90 && p.getHue() < 140) ;//Sat 75
+  protected boolean isGreenHSB(Pixel p, float threshold) {
+    final float PURE_GREEN = 120;
+    //Hue between 100 and 140
+    //Sat is 70 when hue is 120
+    //Bright is greater than 75
+    PVector pointA = new PVector(PURE_GREEN-threshold, 0.0);
+    PVector pointB = new PVector(PURE_GREEN, 100-SAT);
+    PVector pointC = new PVector(PURE_GREEN+threshold, 0.0);
+    
+    double slopeR = (pointC.y - pointB.y)/(pointC.x - pointB.x);
+    double slopeL = (pointA.y - pointB.y)/(pointA.x - pointB.x);
+    
 
+    double yIntR = pointB.y - (slopeR*pointB.x);
+    double yIntL = pointB.y - (slopeL*pointB.x);
+
+    return (p.getHue() > PURE_GREEN - threshold
+      && p.getHue() < PURE_GREEN + threshold
+      && p.getSat() >  (slopeL*p.getHue()) + yIntL//Sat 75
+      && p.getSat() < (slopeR*p.getHue()) + yIntR
+      && p.getBrightness()>60);
   }
 }

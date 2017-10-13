@@ -1,10 +1,8 @@
-import java.util.*;
 
 class BlobProcessor {
-//Ansar is a faggot
   private ArrayList<Blob> blobs;
   private final float MAX_DISTANCE = 6;
-  private final float MIN_DENSITY = 0.45;
+  private final float MIN_DENSITY = 0.0;
   private final float MIN_AREA = 15;
   //private final float MERGE_DIST = 0;
 
