@@ -3,7 +3,7 @@ class BlobProcessor {
   private ArrayList<Blob> blobs;
   private final float MAX_DISTANCE = 6;
   private final float MIN_DENSITY = 0.0;
-  private final float MIN_AREA = 15;
+  private final float MIN_AREA = 20;
   //private final float MERGE_DIST = 0;
 
   BlobProcessor(ArrayList<Blob> _blobs) {
@@ -12,12 +12,21 @@ class BlobProcessor {
   void process() {//Main function called from the outside, responsible for all of the processing
     mergeAll();
     checkDensity();
+    checkArea();
     deleteAll();
   }
 
   private void checkDensity() {
     for (Blob b : blobs) {
-      if (b.density < MIN_DENSITY) {//If density is to low delete blob
+      if (b.density < MIN_DENSITY) {//If density is too low delete blob
+        b.setDeleted();
+      }
+    }
+  }
+  
+  private void checkArea() {
+    for (Blob b : blobs) {
+      if (b.area < MIN_AREA) {//If area is too low delete blob
         b.setDeleted();
       }
     }

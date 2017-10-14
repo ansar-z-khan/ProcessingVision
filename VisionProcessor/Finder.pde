@@ -5,6 +5,7 @@ protected class Finder {
 
   //This is the main function that should be called by other classes on the outside
   public ArrayList <Pixel> getPixels(PImage image) {
+    //getMousePixel(image);
     return findGreenPixels(image);
   }
 
@@ -53,10 +54,15 @@ protected class Finder {
     double yIntR = pointB.y - (slopeR*pointB.x);
     double yIntL = pointB.y - (slopeL*pointB.x);
 
+    /*
     return (p.getHue() > PURE_GREEN - threshold
-      && p.getHue() < PURE_GREEN + threshold
-      && p.getSat() >  (slopeL*p.getHue()) + yIntL//Sat 75
-      && p.getSat() < (slopeR*p.getHue()) + yIntR
-      && p.getBrightness()>60);
+          && p.getHue() < PURE_GREEN + threshold
+          && p.getSat() <  (slopeL*p.getHue()) + yIntL//Sat 75
+          && p.getSat() < (slopeR*p.getHue()) + yIntR
+          && p.getBrightness()>60);
+    */
+    return (p.getSat() <  (slopeL*p.getHue()) + yIntL//Sat 75
+          && p.getSat() < (slopeR*p.getHue()) + yIntR
+          && p.getBrightness()>60);
   }
 }

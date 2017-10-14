@@ -21,11 +21,11 @@ private BlobProcessor blobProcessor = new BlobProcessor(blobs);
 //Low Number = More Stuff
 //High Number = Less Stuff
 
-public static final float threshold = 120;
-public static final float pixelsToSkip = 2;
+public static final float threshold = 20;
+public static final float pixelsToSkip = 3;
 
-public static final float SAT = 70;
-public static final float BRIGHTNESS = 70;
+public static final float SAT = 50;
+public static final float BRIGHTNESS = 10;
 
 
 
@@ -41,8 +41,8 @@ private boolean operational = true;
 
 
 void setup() {
-  size(160, 45);//change this according to your camera resolution, and double the widtht
-  //size(320, 120);
+  //size(160, 45);//change this according to your camera resolution, and double the widtht
+  size(320, 120);
   frameRate(30);
   //Pass the Index of the Camera in the Constructor
   //See The VideoFinder class for instructios on where to get this numbers
@@ -53,12 +53,15 @@ void setup() {
 
   //Winnie's webcam
   //capture = new VideoFinder(8);   //15fps
-  //capture = new VideoFinder(9);   //30fps
+  capture = new VideoFinder(9);   //30fps
   
   //RObot Cam on Mac
-  capture = new VideoFinder(12);
+  //capture = new VideoFinder(12);
+  //Robot cam on windows
+  //capture = new VideoFinder(21);
+  
   //Druiven's cam
-  //capture = new VideoFinder(3);
+  //capture = new VideoFinder(3);  //30fps
 
   rectMode(CORNERS);
   noFill();
@@ -73,7 +76,6 @@ void setup() {
 
 
 void draw() {  
-
   /*
   if (!operational && millis() > 7000) {
     //add commands in case that video provides blank output
@@ -126,7 +128,7 @@ void draw() {
     }*/
 
     blobProcessor.process();
-
+    
     //println("end of case");
     if (frameByFrame) {
       step=1;
