@@ -20,6 +20,13 @@ protected class Finder {
             greenPixels.add(currentPixel);//Add to the list of pixels
           }
         }
+        if (i == (mouseX - width/2) && j == mouseY){
+          fill(img.get(i,j));
+          ellipse(mouseX, mouseY, 10,10);
+          text(img.get(i,j), 0,0);
+          println("Pixel At Mouse: " + currentPixel.getHue());
+          
+        }
       }
     }
     return greenPixels;
@@ -63,6 +70,6 @@ protected class Finder {
     */
     return (p.getSat() <  (slopeL*p.getHue()) + yIntL//Sat 75
           && p.getSat() < (slopeR*p.getHue()) + yIntR
-          && p.getBrightness()>60);
+          && p.getBrightness()>BRIGHTNESS);
   }
 }

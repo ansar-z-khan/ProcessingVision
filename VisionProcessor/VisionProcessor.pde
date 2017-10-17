@@ -22,7 +22,7 @@ private BlobProcessor blobProcessor = new BlobProcessor(blobs);
 //High Number = Less Stuff
 
 public static final float threshold = 20;
-public static final float pixelsToSkip = 3;
+public static final float pixelsToSkip = 2;
 
 public static final float SAT = 50;
 public static final float BRIGHTNESS = 10;
@@ -38,11 +38,13 @@ private boolean frameByFrame = true;
 private int timer = 0;
 private boolean operational = true;
 
+boolean Verbose = false;
+
 
 
 void setup() {
-  //size(160, 45);//change this according to your camera resolution, and double the widtht
-  size(320, 120);
+  size(160, 45);//change this according to your camera resolution, and double the widtht
+  //size(320, 120);
   frameRate(30);
   //Pass the Index of the Camera in the Constructor
   //See The VideoFinder class for instructios on where to get this numbers
@@ -53,10 +55,10 @@ void setup() {
 
   //Winnie's webcam
   //capture = new VideoFinder(8);   //15fps
-  capture = new VideoFinder(9);   //30fps
+  //capture = new VideoFinder(9);   //30fps
   
   //RObot Cam on Mac
-  //capture = new VideoFinder(12);
+   capture = new VideoFinder(12);
   //Robot cam on windows
   //capture = new VideoFinder(21);
   
@@ -82,7 +84,11 @@ void draw() {
     //exit();
   }
 */
+
+
   switch(step) {
+    
+
 
   case 1://Draws the raw image from the stream, get green Pixels 
     background(255);
@@ -135,7 +141,9 @@ void draw() {
       break;
     }
   }
-  println(blobs.size() + " blobs and " + greenPixels.size() + " pixels");
+  if (Verbose){
+    println(blobs.size() + " blobs and " + greenPixels.size() + " pixels");
+  }
 //  delay(5000);
   /*
   for (Pixel p : greenPixels) {
