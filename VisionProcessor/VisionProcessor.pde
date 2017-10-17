@@ -24,8 +24,11 @@ private BlobProcessor blobProcessor = new BlobProcessor(blobs);
 public static final float threshold = 20;
 public static final float pixelsToSkip = 2;
 
-public static final float SAT = 50;
-public static final float BRIGHTNESS = 10;
+//used for calculation of ranges
+public static final float SAT = -100;
+//actual max sat
+public static final float SAT_REAL = 95;
+public static final float BRIGHTNESS = 50;
 
 
 
@@ -43,8 +46,8 @@ boolean Verbose = false;
 
 
 void setup() {
-  size(160, 45);//change this according to your camera resolution, and double the widtht
-  //size(320, 120);
+  //size(160, 45);//change this according to your camera resolution, and double the widtht
+  size(320, 120);
   frameRate(30);
   //Pass the Index of the Camera in the Constructor
   //See The VideoFinder class for instructios on where to get this numbers
@@ -58,9 +61,9 @@ void setup() {
   //capture = new VideoFinder(9);   //30fps
   
   //RObot Cam on Mac
-   capture = new VideoFinder(12);
+  //capture = new VideoFinder(12);
   //Robot cam on windows
-  //capture = new VideoFinder(21);
+  capture = new VideoFinder(21);
   
   //Druiven's cam
   //capture = new VideoFinder(3);  //30fps

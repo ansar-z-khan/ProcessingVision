@@ -24,7 +24,7 @@ protected class Finder {
           fill(img.get(i,j));
           ellipse(mouseX, mouseY, 10,10);
           text(img.get(i,j), 0,0);
-          println("Pixel At Mouse: " + currentPixel.getHue());
+          println("Pixel At Mouse: hue = " + currentPixel.getHue() + " sat = " + currentPixel.getSat() + " brightness = " + currentPixel.getBrightness() );
           
         }
       }
@@ -48,8 +48,6 @@ protected class Finder {
   protected boolean isGreenHSB(Pixel p, float threshold) {
     final float PURE_GREEN = 120;
     //Hue between 100 and 140
-    //Sat is 70 when hue is 120
-    //Bright is greater than 75
     PVector pointA = new PVector(PURE_GREEN-threshold, 0.0);
     PVector pointB = new PVector(PURE_GREEN, 100-SAT);
     PVector pointC = new PVector(PURE_GREEN+threshold, 0.0);
@@ -68,8 +66,10 @@ protected class Finder {
           && p.getSat() < (slopeR*p.getHue()) + yIntR
           && p.getBrightness()>60);
     */
-    return (p.getSat() <  (slopeL*p.getHue()) + yIntL//Sat 75
+    return (p.getSat() < SAT_REAL  
+          && p.getSat() <  (slopeL*p.getHue()) + yIntL//Sat 75
           && p.getSat() < (slopeR*p.getHue()) + yIntR
           && p.getBrightness()>BRIGHTNESS);
+      
   }
 }
