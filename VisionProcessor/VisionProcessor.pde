@@ -21,6 +21,7 @@ private BlobProcessor blobProcessor = new BlobProcessor(blobs);
 //Low Number = More Stuff
 //High Number = Less Stuff
 
+public static final float IDEAL_GREEN = 175;
 public static final float threshold = 20;
 public static final float pixelsToSkip = 2;
 
@@ -28,7 +29,7 @@ public static final float pixelsToSkip = 2;
 public static final float SAT = -100;
 //actual max sat
 public static final float SAT_REAL = 95;
-public static final float BRIGHTNESS = 50;
+public static final float BRIGHTNESS = 80;
 
 
 
@@ -60,7 +61,7 @@ void setup() {
   //capture = new VideoFinder(8);   //15fps
   //capture = new VideoFinder(9);   //30fps
   
-  //RObot Cam on Mac
+  //Robot Cam on Mac
   //capture = new VideoFinder(12);
   //Robot cam on windows
   capture = new VideoFinder(21);
@@ -90,8 +91,6 @@ void draw() {
 
 
   switch(step) {
-    
-
 
   case 1://Draws the raw image from the stream, get green Pixels 
     background(255);

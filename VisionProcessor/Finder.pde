@@ -46,11 +46,12 @@ protected class Finder {
     return (p.getSquaredGreen()/p.getSquaredRed() >= threshold/100 && p.getSquaredGreen()/p.getSquaredBlue() >= threshold/100);
   }
   protected boolean isGreenHSB(Pixel p, float threshold) {
-    final float PURE_GREEN = 120;
+    //final float PURE_GREEN = 120;
+    //final float IDEAL_GREEN = 170;
     //Hue between 100 and 140
-    PVector pointA = new PVector(PURE_GREEN-threshold, 0.0);
-    PVector pointB = new PVector(PURE_GREEN, 100-SAT);
-    PVector pointC = new PVector(PURE_GREEN+threshold, 0.0);
+    PVector pointA = new PVector(VisionProcessor.IDEAL_GREEN-threshold, 0.0);
+    PVector pointB = new PVector(VisionProcessor.IDEAL_GREEN, 100-SAT);
+    PVector pointC = new PVector(VisionProcessor.IDEAL_GREEN+threshold, 0.0);
     
     double slopeR = (pointC.y - pointB.y)/(pointC.x - pointB.x);
     double slopeL = (pointA.y - pointB.y)/(pointA.x - pointB.x);
