@@ -23,13 +23,17 @@ class Pixel {
     return blue(colour);
   }
   float getHue() {
-    return hue(colour);
+    return (hue(colour)*(24.0/17.0) );
   }
   float getSaturation() {
-    return saturation(colour);
+    return (saturation(colour)*(20.0/51.0) );
+    
+  }
+  float getSat(){
+    return (100.0-(getSaturation()*(20.0/51.0) ) );
   }
   float getBrightness() {
-    return brightness(colour);
+    return (brightness(colour)*(20.0/51.0) );
   }
   float getSquaredRed() {
     return pow(red(colour), 2);

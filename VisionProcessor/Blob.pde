@@ -100,8 +100,8 @@ class Blob {
     //Pixel bottomRight = pixels.get(pixels.size()-1);
     // fill(255 - (255*density));
     noFill();
+    stroke(0);
     rect(minBounds.x, minBounds.y, maxBounds.x, maxBounds.y);
-
     rect(minBounds.x + width/2, minBounds.y, maxBounds.x + width/2, maxBounds.y);
   }
 

@@ -1,6 +1,6 @@
 
 import processing.video.*;
-
+import java.util.*;
 
 class VideoFinder extends Finder {
 
@@ -45,7 +45,6 @@ class VideoFinder extends Finder {
 
     if (cam.available() == true) {
       cam.read();
-      println(currentImage.pixels.length + ", " + lastImage.pixels.length);
       lastImage = currentImage.get();
       currentImage = cam;
       if (Arrays.equals(currentImage.pixels, lastImage.pixels)) {
