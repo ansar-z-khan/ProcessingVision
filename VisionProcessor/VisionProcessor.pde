@@ -21,37 +21,62 @@ private BlobProcessor blobProcessor = new BlobProcessor(blobs);
 //Low Number = More Stuff
 //High Number = Less Stuff
 
-public static final double threshold = 130;
 public static final float pixelsToSkip = 2;
+
+//used for detection method 0
+public static float idealHue = 175;
+public static float idealSat = 70;
+public static float idealBrightness = 90;
+
+//used for detection method 1
+public static final float threshold = 20;
+//used for calculation of ranges
+public static final float SAT = -100;
+//actual max sat
+public static final float SAT_REAL = 95;
+public static final float BRIGHTNESS = 80;
+
+
 
 private final double maxBlobs = 1000;
 
-private int step = 1;
+private int step = 0;
 
 private boolean frameByFrame = true;
 
 private int timer = 0;
-private boolean operational = false;
+private boolean operational = true;
+
+boolean Verbose = false;
+
+//0 = area under two lines
+//1 = threshold for each value
+public static int detectionType = 1;
 
 
 
 void setup() {
-  size(160, 45);//change this according to your camera resolution, and double the widtht
-  //size(320, 120);
+  //size(160, 45);//change this according to your camera resolution, and double the widtht
+  size(320, 120);
   frameRate(30);
   //Pass the Index of the Camera in the Constructor
   //See The VideoFinder class for instructios on where to get this numbers
   //Ansar's webcam
-  capture = new VideoFinder(13);
+  //capture = new VideoFinder(13);
   //robot's webcam
   //capture = new VideoFinder(44);
 
   //Winnie's webcam
   //capture = new VideoFinder(8);   //15fps
-  //capture = new VideoFinder(9);   //30fps
+  capture = new VideoFinder(9);   //30fps
+  
+  //Robot Cam on Mac
+  //capture = new VideoFinder(12);
+  //Robot cam on windows
+  //capture = new VideoFinder(21);
   
   //Druiven's cam
-  //capture = new VideoFinder(3);
+  //capture = new VideoFinder(3);  //30fps
 
   rectMode(CORNERS);
   noFill();
@@ -60,20 +85,43 @@ void setup() {
 
   //VideoFinder foo = new VideoFinder(true);
   //delay(1000);
+  
 } 
 
 
 
 
 void draw() {  
-
   /*
   if (!operational && millis() > 7000) {
     //add commands in case that video provides blank output
     //exit();
   }
 */
+
+
   switch(step) {
+    
+  case 0: //get raw image and tune to selected pixel
+    background(255);
+    capture.updateImage();//Get New Image From Camera
+    capture.drawImage(width/2, 0);//Draw Image
+    PImage image = capture.getCurrentImage();
+    
+    println("select pixel");
+    
+    if (mousePressed) {
+      Pixel currentPixel = new Pixel(mouseX-width/2, mouseY, image.get(mouseX-width/2, mouseY));
+      idealHue = currentPixel.getHue();
+      idealSat = currentPixel.getSaturation();
+      idealBrightness = currentPixel.getBrightness();
+      println("** ideal: hue = " + idealHue + " sat = " + idealSat + " brightness = " + idealBrightness + " **");
+      if (frameByFrame) {
+        step++;
+        break;
+      }
+    }
+    break;
 
   case 1://Draws the raw image from the stream, get green Pixels 
     background(255);
@@ -119,14 +167,16 @@ void draw() {
     }*/
 
     blobProcessor.process();
-
+    
     //println("end of case");
     if (frameByFrame) {
       step=1;
       break;
     }
   }
-  println(blobs.size() + " blobs and " + greenPixels.size() + " pixels");
+  if (Verbose){
+    println(blobs.size() + " blobs and " + greenPixels.size() + " pixels");
+  }
 //  delay(5000);
   /*
   for (Pixel p : greenPixels) {
