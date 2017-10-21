@@ -56,7 +56,7 @@ public static int detectionType = 1;
 
 
 void setup() {
-  //size(160, 45);//change this according to your camera resolution, and double the widtht
+  //size(160, 45);//change this according to your camera resolution, and double the width
   size(320, 120);
   frameRate(30);
   //Pass the Index of the Camera in the Constructor
@@ -121,7 +121,9 @@ void draw() {
         break;
       }
     }
-    break;
+    if (frameByFrame) {
+      break;
+    }
 
   case 1://Draws the raw image from the stream, get green Pixels 
     background(255);
