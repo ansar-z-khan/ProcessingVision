@@ -59,9 +59,9 @@ class VideoFinder extends Finder {
     }
   }
 
-  void frozen() {
-    //exit();
+  void frozen(){ 
     //println("The Image has not updated for the last " + cam.frameRate * 30 + " frames, exitting");
+    //exit();
   }
 
   void drawImage(float x, float y) {
@@ -73,7 +73,6 @@ class VideoFinder extends Finder {
     String[] cameras = Capture.list();
     if (CaptureList.length == 0) {
       println("There are no cameras available for capture.");
-      exit();
     } else {
       println("Available cameras:");
       for (int i = 0; i < cameras.length; i++) {

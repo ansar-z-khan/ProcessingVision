@@ -1,3 +1,14 @@
+import ketai.camera.*;
+import ketai.cv.facedetector.*;
+import ketai.data.*;
+import ketai.net.*;
+import ketai.net.bluetooth.*;
+import ketai.net.nfc.*;
+import ketai.net.nfc.record.*;
+import ketai.net.wifidirect.*;
+import ketai.sensors.*;
+import ketai.ui.*;
+
 /*
 Pseudocode
  - pixel class
@@ -13,7 +24,8 @@ Pseudocode
  */
  
 //This VideoFinder Class takes care of all the video and the detection of green
-private VideoFinder capture;
+private AndroidVideoFinder capture;
+//private VideoFinder capture;
 private ArrayList<Blob> blobs = new ArrayList<Blob>();
 private ArrayList<Pixel> greenPixels = new ArrayList<Pixel>();
 
@@ -21,9 +33,12 @@ private BlobProcessor blobProcessor = new BlobProcessor(blobs);
 //Low Number = More Stuff
 //High Number = Less Stuff
 
-public static final float IDEAL_GREEN = 175;
-public static final float threshold = 20;
-public static final float pixelsToSkip = 2;
+public static final float IDEAL_GREEN = 120;
+public static final float threshold = 120;
+public static final float pixelsToSkip = 4;
+
+public static final int WIDTH = 320;
+public static final int HEIGHT = 240;
 
 //used for calculation of ranges
 public static final float SAT = -100;
@@ -33,7 +48,7 @@ public static final float BRIGHTNESS = 80;
 
 
 
-private final double maxBlobs = 1000;
+private final double maxBlobs = 3;
 
 private int step = 1;
 
@@ -42,14 +57,16 @@ private boolean frameByFrame = true;
 private int timer = 0;
 private boolean operational = true;
 
-boolean Verbose = false;
+boolean Verbose = true;
 
 
 
 void setup() {
   //size(160, 45);//change this according to your camera resolution, and double the widtht
-  size(320, 120);
-  frameRate(30);
+  size(displayWidth, displayHeight);
+  orientation(LANDSCAPE);    
+
+  ///frameRate(30);
   //Pass the Index of the Camera in the Constructor
   //See The VideoFinder class for instructios on where to get this numbers
   //Ansar's webcam
@@ -64,15 +81,15 @@ void setup() {
   //Robot Cam on Mac
   //capture = new VideoFinder(12);
   //Robot cam on windows
-  capture = new VideoFinder(21);
-  
+  capture = new AndroidVideoFinder(WIDTH, HEIGHT);
+
   //Druiven's cam
   //capture = new VideoFinder(3);  //30fps
 
   rectMode(CORNERS);
   noFill();
   stroke(0, 0, 0);
-  colorMode(HSB);
+  colorMode(RGB);
 
   //VideoFinder foo = new VideoFinder(true);
   //delay(1000);
@@ -85,7 +102,6 @@ void draw() {
   /*
   if (!operational && millis() > 7000) {
     //add commands in case that video provides blank output
-    //exit();
   }
 */
 

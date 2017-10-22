@@ -15,17 +15,10 @@ protected class Finder {
     for (int i = 0; i<img.width; i += pixelsToSkip) {//Iterate throough width
       for (int j = 0; j<img.height; j += pixelsToSkip) {//Iterate through Height
         Pixel currentPixel = new Pixel(i, j, img.get(i, j));//Store Current Pixel
-        if (isGreenHSB(currentPixel, VisionProcessor.threshold)) {//Check if pixel is green
+        if (isGreen(currentPixel, VisionProcessor.threshold)) {//Check if pixel is green
           if (!greenPixels.contains(currentPixel) ) {
             greenPixels.add(currentPixel);//Add to the list of pixels
           }
-        }
-        if (i == (mouseX - width/2) && j == mouseY){
-          fill(img.get(i,j));
-          ellipse(mouseX, mouseY, 10,10);
-          text(img.get(i,j), 0,0);
-          println("Pixel At Mouse: hue = " + currentPixel.getHue() + " sat = " + currentPixel.getSat() + " brightness = " + currentPixel.getBrightness() );
-          
         }
       }
     }
