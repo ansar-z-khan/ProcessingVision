@@ -22,7 +22,7 @@ Pseudocode
  - isGreen
  
  */
- 
+
 //This VideoFinder Class takes care of all the video and the detection of green
 private AndroidVideoFinder capture;
 //private VideoFinder capture;
@@ -30,6 +30,7 @@ private ArrayList<Blob> blobs = new ArrayList<Blob>();
 private ArrayList<Pixel> greenPixels = new ArrayList<Pixel>();
 
 private BlobProcessor blobProcessor = new BlobProcessor(blobs);
+ColourSelector selector; 
 //Low Number = More Stuff
 //High Number = Less Stuff
 
@@ -50,21 +51,21 @@ public static final float BRIGHTNESS = 80;
 
 private final double maxBlobs = 3;
 
-private int step = 1;
+private int step = 0;
 
 private boolean frameByFrame = true;
 
 private int timer = 0;
 private boolean operational = true;
 
-boolean Verbose = true;
+boolean Verbose = false;
 
 
 
 void setup() {
   //size(160, 45);//change this according to your camera resolution, and double the widtht
   size(displayWidth, displayHeight);
-  orientation(LANDSCAPE);    
+ //orientation(PORTRAIT);    
 
   ///frameRate(30);
   //Pass the Index of the Camera in the Constructor
@@ -77,16 +78,18 @@ void setup() {
   //Winnie's webcam
   //capture = new VideoFinder(8);   //15fps
   //capture = new VideoFinder(9);   //30fps
-  
+
   //Robot Cam on Mac
   //capture = new VideoFinder(12);
   //Robot cam on windows
-  capture = new AndroidVideoFinder(WIDTH, HEIGHT);
+  capture = new AndroidVideoFinder(1280, 960);
+  selector = new ColourSelector();
 
   //Druiven's cam
   //capture = new VideoFinder(3);  //30fps
 
   rectMode(CORNERS);
+  imageMode(CENTER);
   noFill();
   stroke(0, 0, 0);
   colorMode(RGB);
@@ -101,12 +104,26 @@ void setup() {
 void draw() {  
   /*
   if (!operational && millis() > 7000) {
-    //add commands in case that video provides blank output
-  }
-*/
+   //add commands in case that video provides blank output
+   }
+   */
 
 
   switch(step) {
+
+
+  case 0:
+  background(255);
+    
+    
+    capture.updateImage();//Get New Image From Camera
+    capture.drawPreviewImage();//Draw Image
+    selector.updateButton();
+    selector.drawButton();
+
+    return;
+
+
 
   case 1://Draws the raw image from the stream, get green Pixels 
     background(255);
@@ -121,12 +138,12 @@ void draw() {
     displayGreen(greenPixels);//Draw Green Pixels
     blobs.clear();
     greenPixels = capture.getGreenPixels();
-    
+
     /*
     if (!operational && millis() < 5000 && greenPixels.size() != 0) {
-      operational = true;
-    }
-    */
+     operational = true;
+     }
+     */
     if (frameByFrame) {
       step++;
       break;
@@ -147,22 +164,22 @@ void draw() {
     //println("amount of pixels added = " + timesAdded);
     /*
     if (timesAdded != greenPixels.size() ) {
-      println("amount of pixels added = " + timesAdded);
-      delay(1000);
-    }*/
+     println("amount of pixels added = " + timesAdded);
+     delay(1000);
+     }*/
 
     blobProcessor.process();
-    
+
     //println("end of case");
     if (frameByFrame) {
       step=1;
       break;
     }
   }
-  if (Verbose){
+  if (Verbose) {
     println(blobs.size() + " blobs and " + greenPixels.size() + " pixels");
   }
-//  delay(5000);
+  //  delay(5000);
   /*
   for (Pixel p : greenPixels) {
    for (Blob b : blobs){
@@ -225,7 +242,7 @@ private void addBlob (int blob, int pixel, ArrayList<Boolean> blobCheck) {
    }
    } else {
    addBlob(blob, pixel+1);
-  }*/
+   }*/
 
   //next pixel
   if (blob == blobs.size()-1) {
@@ -235,7 +252,7 @@ private void addBlob (int blob, int pixel, ArrayList<Boolean> blobCheck) {
       //next blob
       addBlob(blob+1, pixel, blobCheck);
     } else {
-      if (pixel == greenPixels.size()-1){
+      if (pixel == greenPixels.size()-1) {
         return;
       }
 
