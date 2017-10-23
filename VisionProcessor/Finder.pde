@@ -3,8 +3,8 @@
 protected class Finder {
   
   private float hueThreshold = 10;
-  private float satThreshold = 40;
-  private float brightnessThreshold = 100;
+  private float satThreshold = 25;
+  private float brightnessThreshold = 10;
 
 
   //This is the main function that should be called by other classes on the outside
@@ -84,8 +84,8 @@ protected class Finder {
     //only runs if detection type != 0
     //brightness check may not be needed
     return (p.getHue() < idealHue + hueThreshold && p.getHue() > idealHue - hueThreshold 
-           && p.getSaturation() < idealSat + satThreshold && p.getSaturation() > idealSat - satThreshold);
-           //&& p.getBrightness() < idealBrightness + brightnessThreshold && p.getBrightness() > idealBrightness - brightnessThreshold);
+           && p.getSaturation() < idealSat + satThreshold && p.getSaturation() > idealSat - satThreshold
+           && p.getBrightness() < idealBrightness + brightnessThreshold && p.getBrightness() > idealBrightness - brightnessThreshold);
           
       
   }

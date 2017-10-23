@@ -21,7 +21,7 @@ private BlobProcessor blobProcessor = new BlobProcessor(blobs);
 //Low Number = More Stuff
 //High Number = Less Stuff
 
-public static final float pixelsToSkip = 2;
+public static final float pixelsToSkip = 3;
 
 //used for detection method 0
 public static float idealHue = 175;
@@ -68,12 +68,12 @@ void setup() {
 
   //Winnie's webcam
   //capture = new VideoFinder(8);   //15fps
-  capture = new VideoFinder(9);   //30fps
+  //capture = new VideoFinder(9);   //30fps
   
   //Robot Cam on Mac
   //capture = new VideoFinder(12);
   //Robot cam on windows
-  //capture = new VideoFinder(21);
+  capture = new VideoFinder(21);
   
   //Druiven's cam
   //capture = new VideoFinder(3);  //30fps

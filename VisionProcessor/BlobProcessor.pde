@@ -1,9 +1,9 @@
 
 class BlobProcessor {
   private ArrayList<Blob> blobs;
-  private final float MAX_DISTANCE = 6;
+  private final float MAX_DISTANCE = VisionProcessor.pixelsToSkip * 3;
   private final float MIN_DENSITY = 50.0;
-  private final float MIN_AREA = 4;  //initially 20
+  private final float MIN_AREA = 10;  //initially 20
   //private final float MERGE_DIST = 0;
 
   BlobProcessor(ArrayList<Blob> _blobs) {
