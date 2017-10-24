@@ -27,17 +27,17 @@ class ColourSelector {
         pressingDown  =true;
       }
     }
-
   }
-
 }
 
-void changeState(){
-
-     step++;
+void changeState() {
+  previewCapture = null;
+  capture = new AndroidVideoFinder(WIDTH, HEIGHT); 
+  step++;
 }
 
-void mouseReleased(){
+void mouseReleased() {
+  if (selector.pressingDown && step == 0) {
     changeState();
- }
-  
+  }
+}

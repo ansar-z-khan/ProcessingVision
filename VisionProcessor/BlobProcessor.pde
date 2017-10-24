@@ -1,7 +1,7 @@
-
+  
 class BlobProcessor {
   private ArrayList<Blob> blobs;
-  private final float MAX_DISTANCE = 6;
+  private final float MAX_DISTANCE = pixelsToSkip * 3;
   private final float MIN_DENSITY = 0.0;
   private final float MIN_AREA = 80;
   //private final float MERGE_DIST = 0;
@@ -152,9 +152,5 @@ class BlobProcessor {
   ArrayList<Blob> getRealBlobs(){
       ArrayList<Blob> blobs = new ArrayList<Blob>();
       return blobs;
-  }
-  
-  
-  
-  
+  } 
 }

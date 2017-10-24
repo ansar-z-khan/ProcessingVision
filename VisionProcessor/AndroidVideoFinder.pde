@@ -5,7 +5,7 @@ class AndroidVideoFinder extends Finder {
 
   AndroidVideoFinder(int _width, int _height) {
     cam = new KetaiCamera(VisionProcessor.this, _width, _height, 30 );   
-    cam.setPhotoSize(1280,720);
+    cam.setPhotoSize(_width,_height);
     cam.autoSettings();
     cam.start();
   }
@@ -18,17 +18,19 @@ class AndroidVideoFinder extends Finder {
     cam.read();
    
   }
-  void drawImage(float x, float y) {
+  void drawImage() {
     //image(lastImage, 0, 0);
     
-    image(currentImage, x, y);
+    image(currentImage, width/2, (height/2));
   }
   void drawPreviewImage() {
+    
     //image(lastImage, 0, 0);
     pushMatrix();
-    translate(displayWidth/2, displayHeight/2);
-    rotate(90.0*PI/180.0);
-    image(currentImage, 0,0);
+    translate(width/2,height/2);
+    rotate(90*PI/180);
+    
+    image(currentImage,0,0);
     point(0,0);
     popMatrix();
   }

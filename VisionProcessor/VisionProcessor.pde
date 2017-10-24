@@ -25,6 +25,7 @@ Pseudocode
 
 //This VideoFinder Class takes care of all the video and the detection of green
 private AndroidVideoFinder capture;
+private AndroidVideoFinder previewCapture;
 //private VideoFinder capture;
 private ArrayList<Blob> blobs = new ArrayList<Blob>();
 private ArrayList<Pixel> greenPixels = new ArrayList<Pixel>();
@@ -36,10 +37,10 @@ ColourSelector selector;
 
 public static final float IDEAL_GREEN = 120;
 public static final float threshold = 120;
-public static final float pixelsToSkip = 4;
+public static final float pixelsToSkip = 5;
 
-public static final int WIDTH = 320;
-public static final int HEIGHT = 240;
+public static final int WIDTH = 200;
+public static final int HEIGHT = 200;
 
 //used for calculation of ranges
 public static final float SAT = -100;
@@ -65,7 +66,7 @@ boolean Verbose = false;
 void setup() {
   //size(160, 45);//change this according to your camera resolution, and double the widtht
   size(displayWidth, displayHeight);
- //orientation(PORTRAIT);    
+  //orientation(PORTRAIT);    
 
   ///frameRate(30);
   //Pass the Index of the Camera in the Constructor
@@ -82,7 +83,9 @@ void setup() {
   //Robot Cam on Mac
   //capture = new VideoFinder(12);
   //Robot cam on windows
-  capture = new AndroidVideoFinder(1280, 960);
+  previewCapture = new AndroidVideoFinder(1280, 960);
+
+  
   selector = new ColourSelector();
 
   //Druiven's cam
@@ -108,27 +111,22 @@ void draw() {
    }
    */
 
-
   switch(step) {
 
 
   case 0:
-  background(255);
-    
-    
-    capture.updateImage();//Get New Image From Camera
-    capture.drawPreviewImage();//Draw Image
+    background(255);  
     selector.updateButton();
     selector.drawButton();
+    previewCapture.updateImage();//Get New Image From Camera
+    previewCapture.drawPreviewImage();//Draw Image
 
     return;
-
-
 
   case 1://Draws the raw image from the stream, get green Pixels 
     background(255);
     capture.updateImage();//Get New Image From Camera
-    capture.drawImage(width/2, 0);//Draw Image
+    capture.drawPreviewImage();//Draw Image
 
     for (Blob b : blobs) {
       b.show();
@@ -195,9 +193,11 @@ void draw() {
 }
 
 private void displayGreen(ArrayList <Pixel> pixels) {
+
   for (Pixel p : pixels) {
+    PVector shiftedPos = new PVector(p.getPos().x + width/2 - capture.getCurrentImage().width, p.getPos().y + height/2 - capture.getCurrentImage().width);
     stroke(p.getColour());//Set color to that of the pixel
-    point(p.getPos().x, p.getPos().y);//Draw in the pixel
+    point(shiftedPos.x, shiftedPos.y);//Draw in the pixel
     //println(p.getRed() + ", "+p.getGreen() + ", " + p.getBlue());
   }
 }
