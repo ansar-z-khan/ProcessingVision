@@ -73,7 +73,7 @@ protected class Finder {
             && p.getSat() < (slopeR*p.getHue()) + yIntR
             && p.getBrightness()>60);
       */
-      return (p.getSat() < idealSat + satThreshold  
+      return (p.getSaturation() > idealSat - satThreshold  
             && p.getSat() <  (slopeL*p.getHue()) + yIntL//Sat 75
             && p.getSat() < (slopeR*p.getHue()) + yIntR
             && p.getBrightness() > idealBrightness - brightnessThreshold);
