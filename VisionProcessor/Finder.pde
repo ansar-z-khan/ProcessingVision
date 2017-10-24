@@ -1,6 +1,11 @@
 
 
 protected class Finder {
+  
+  private float hueThreshold = 10;
+  private float satThreshold = 25;
+  private float brightnessThreshold = 10;
+
 
 
   //This is the main function that should be called by other classes on the outside
@@ -15,7 +20,8 @@ protected class Finder {
     for (int i = 0; i<img.width; i += pixelsToSkip) {//Iterate throough width
       for (int j = 0; j<img.height; j += pixelsToSkip) {//Iterate through Height
         Pixel currentPixel = new Pixel(i, j, img.get(i, j));//Store Current Pixel
-        if (isGreenHSB(currentPixel, VisionProcessor.threshold)) {//Check if pixel is green
+        if (isGreenHSB(currentPixel, VisionProcessor.idealHue, VisionProcessor.idealSat, VisionProcessor.idealBrightness)) {//Check if pixel is green
+
           if (!greenPixels.contains(currentPixel) ) {
             greenPixels.add(currentPixel);//Add to the list of pixels
           }
@@ -45,32 +51,44 @@ protected class Finder {
 
     return (p.getSquaredGreen()/p.getSquaredRed() >= threshold/100 && p.getSquaredGreen()/p.getSquaredBlue() >= threshold/100);
   }
-  protected boolean isGreenHSB(Pixel p, float threshold) {
-    //final float PURE_GREEN = 120;
-    //final float IDEAL_GREEN = 170;
-    //Hue between 100 and 140
-    PVector pointA = new PVector(VisionProcessor.IDEAL_GREEN-threshold, 0.0);
-    PVector pointB = new PVector(VisionProcessor.IDEAL_GREEN, 100-SAT);
-    PVector pointC = new PVector(VisionProcessor.IDEAL_GREEN+threshold, 0.0);
+  protected boolean isGreenHSB(Pixel p, float idealHue, float idealSat, float idealBrightness) {
+    if (VisionProcessor.detectionType == 0) {
+      //final float PURE_GREEN = 120;
+      //final float IDEAL_GREEN = 170;
+      //Hue between 100 and 140
+      PVector pointA = new PVector(idealHue-hueThreshold, 0.0);
+      PVector pointB = new PVector(idealHue, 100-SAT);
+      PVector pointC = new PVector(idealHue+hueThreshold, 0.0);
+      
+      double slopeR = (pointC.y - pointB.y)/(pointC.x - pointB.x);
+      double slopeL = (pointA.y - pointB.y)/(pointA.x - pointB.x);
+      
+  
+      double yIntR = pointB.y - (slopeR*pointB.x);
+      double yIntL = pointB.y - (slopeL*pointB.x);
+  
+      /*
+      return (p.getHue() > PURE_GREEN - threshold
+            && p.getHue() < PURE_GREEN + threshold
+            && p.getSat() <  (slopeL*p.getHue()) + yIntL//Sat 75
+            && p.getSat() < (slopeR*p.getHue()) + yIntR
+            && p.getBrightness()>60);
+      */
+      return (p.getSaturation() > idealSat - satThreshold  
+            && p.getSat() <  (slopeL*p.getHue()) + yIntL//Sat 75
+            && p.getSat() < (slopeR*p.getHue()) + yIntR
+            && p.getBrightness() > idealBrightness - brightnessThreshold);
+            
+    }
     
-    double slopeR = (pointC.y - pointB.y)/(pointC.x - pointB.x);
-    double slopeL = (pointA.y - pointB.y)/(pointA.x - pointB.x);
-    
+    //detection type = 1
+    //only runs if detection type != 0
+    //brightness check may not be needed
+    return (p.getHue() < idealHue + hueThreshold && p.getHue() > idealHue - hueThreshold 
+           && p.getSaturation() < idealSat + satThreshold && p.getSaturation() > idealSat - satThreshold
+           && p.getBrightness() < idealBrightness + brightnessThreshold && p.getBrightness() > idealBrightness - brightnessThreshold);
+          
 
-    double yIntR = pointB.y - (slopeR*pointB.x);
-    double yIntL = pointB.y - (slopeL*pointB.x);
-
-    /*
-    return (p.getHue() > PURE_GREEN - threshold
-          && p.getHue() < PURE_GREEN + threshold
-          && p.getSat() <  (slopeL*p.getHue()) + yIntL//Sat 75
-          && p.getSat() < (slopeR*p.getHue()) + yIntR
-          && p.getBrightness()>60);
-    */
-    return (p.getSat() < SAT_REAL  
-          && p.getSat() <  (slopeL*p.getHue()) + yIntL//Sat 75
-          && p.getSat() < (slopeR*p.getHue()) + yIntR
-          && p.getBrightness()>BRIGHTNESS);
       
   }
 }

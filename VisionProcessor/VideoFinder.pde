@@ -47,6 +47,7 @@ class VideoFinder extends Finder {
       cam.read();
       lastImage = currentImage.get();
       currentImage = cam;
+      //freeze method does not work
       if (Arrays.equals(currentImage.pixels, lastImage.pixels)) {
         repeatCounter++;
         //println("repeat" + repeatCounter);

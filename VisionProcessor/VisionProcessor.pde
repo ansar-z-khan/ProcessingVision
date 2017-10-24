@@ -21,9 +21,15 @@ private BlobProcessor blobProcessor = new BlobProcessor(blobs);
 //Low Number = More Stuff
 //High Number = Less Stuff
 
-public static final float IDEAL_GREEN = 175;
+public static final float pixelsToSkip = 3;
+
+//used for detection method 0
+public static float idealHue = 175;
+public static float idealSat = 70;
+public static float idealBrightness = 90;
+
+//used for detection method 1
 public static final float threshold = 20;
-public static final float pixelsToSkip = 2;
 
 //used for calculation of ranges
 public static final float SAT = -100;
@@ -35,7 +41,8 @@ public static final float BRIGHTNESS = 80;
 
 private final double maxBlobs = 1000;
 
-private int step = 1;
+private int step = 0;
+
 
 private boolean frameByFrame = true;
 
@@ -44,10 +51,14 @@ private boolean operational = true;
 
 boolean Verbose = false;
 
+//0 = area under two lines
+//1 = threshold for each value
+public static int detectionType = 0;
+
 
 
 void setup() {
-  //size(160, 45);//change this according to your camera resolution, and double the widtht
+  //size(160, 45);//change this according to your camera resolution, and double the width
   size(320, 120);
   frameRate(30);
   //Pass the Index of the Camera in the Constructor
@@ -76,6 +87,7 @@ void setup() {
 
   //VideoFinder foo = new VideoFinder(true);
   //delay(1000);
+
 } 
 
 
@@ -91,6 +103,30 @@ void draw() {
 
 
   switch(step) {
+    
+  case 0: //get raw image and tune to selected pixel
+    background(255);
+    capture.updateImage();//Get New Image From Camera
+    capture.drawImage(width/2, 0);//Draw Image
+    PImage image = capture.getCurrentImage();
+    
+    println("select pixel");
+    
+    if (mousePressed) {
+      Pixel currentPixel = new Pixel(mouseX-width/2, mouseY, image.get(mouseX-width/2, mouseY));
+      idealHue = currentPixel.getHue();
+      idealSat = currentPixel.getSaturation();
+      idealBrightness = currentPixel.getBrightness();
+      println("** ideal: hue = " + idealHue + " sat = " + idealSat + " brightness = " + idealBrightness + " **");
+      if (frameByFrame) {
+        step++;
+        break;
+      }
+    }
+    if (frameByFrame) {
+      break;
+    }
+
 
   case 1://Draws the raw image from the stream, get green Pixels 
     background(255);
