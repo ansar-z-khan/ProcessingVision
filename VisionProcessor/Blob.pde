@@ -9,7 +9,7 @@ class Blob {
   private float density;
   private float area;
 
-  private final float TOLERANCE = VisionProcessor.pixelsToSkip * 2;
+  private final int TOLERANCE = int (pixelsToSkip * 2);
 
 
   Blob(Pixel p) {
@@ -101,17 +101,25 @@ class Blob {
     // fill(255 - (255*density));
     noFill();
     stroke(0);
-    rect(minBounds.x, minBounds.y, maxBounds.x, maxBounds.y);
-    rect(minBounds.x + width/2, minBounds.y, maxBounds.x + width/2, maxBounds.y);
+    
+    PVector shiftedMinPos = new PVector(minBounds.x + width/2 - capture.getCurrentImage().width/2, minBounds.y + height/2 - capture.getCurrentImage().height/2);
+    PVector shiftedMaxPos = new PVector(maxBounds.x + width/2 - capture.getCurrentImage().width/2, maxBounds.y + height/2 - capture.getCurrentImage().height/2);
+    rect(shiftedMinPos.x, shiftedMinPos.y, shiftedMaxPos.x, shiftedMaxPos.y);
+    text(getWidth() + "x" + getHeight(), 20, height*0.8);
+   // rect(minBounds.x + width/2, minBounds.y, maxBounds.x + width/2, maxBounds.y);
   }
-
+  ///DO NOT USE THIS
   void show(int red, int green, int blue) {
     //Pixel topLeft = pixels.get(0);
     //Pixel bottomRight = pixels.get(pixels.size()-1);
     // fill(255 - (255*density));
     //noFill();
     stroke(red, green, blue);
-    rect(minBounds.x, minBounds.y, maxBounds.x, maxBounds.y);
+    ///DO NOT USE THIS
+    PVector shiftedMinPos = new PVector(minBounds.x + width/2, minBounds.y + height/2);
+    PVector shiftedMaxPos = new PVector(maxBounds.x + width/2, maxBounds.y + height/2);
+    
+    rect(shiftedMinPos.x, shiftedMinPos.y, shiftedMaxPos.x, shiftedMaxPos.y);
     stroke(0);
   }
 
@@ -135,4 +143,5 @@ class Blob {
     updateDensity();
     
   }
+
 }

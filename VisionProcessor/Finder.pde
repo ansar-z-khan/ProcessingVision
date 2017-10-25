@@ -1,5 +1,4 @@
 
-
 protected class Finder {
   
   private float hueThreshold = 10;
@@ -89,4 +88,5 @@ protected class Finder {
           
       
   }
+
 }

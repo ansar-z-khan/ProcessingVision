@@ -86,4 +86,5 @@ class VideoFinder extends Finder {
   PImage getCurrentImage() {
     return currentImage;
   }
+
 }
