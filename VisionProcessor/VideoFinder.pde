@@ -47,6 +47,7 @@ class VideoFinder extends Finder {
       cam.read();
       lastImage = currentImage.get();
       currentImage = cam;
+      //freeze method does not work
       if (Arrays.equals(currentImage.pixels, lastImage.pixels)) {
         repeatCounter++;
         //println("repeat" + repeatCounter);
@@ -59,9 +60,9 @@ class VideoFinder extends Finder {
     }
   }
 
-  void frozen(){ 
-    //println("The Image has not updated for the last " + cam.frameRate * 30 + " frames, exitting");
+  void frozen() {
     //exit();
+    //println("The Image has not updated for the last " + cam.frameRate * 30 + " frames, exitting");
   }
 
   void drawImage(float x, float y) {
@@ -73,6 +74,7 @@ class VideoFinder extends Finder {
     String[] cameras = Capture.list();
     if (CaptureList.length == 0) {
       println("There are no cameras available for capture.");
+      exit();
     } else {
       println("Available cameras:");
       for (int i = 0; i < cameras.length; i++) {
@@ -84,4 +86,5 @@ class VideoFinder extends Finder {
   PImage getCurrentImage() {
     return currentImage;
   }
+
 }
