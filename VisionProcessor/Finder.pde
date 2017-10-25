@@ -51,6 +51,7 @@ protected class Finder {
 
     return (p.getSquaredGreen()/p.getSquaredRed() >= threshold/100 && p.getSquaredGreen()/p.getSquaredBlue() >= threshold/100);
   }
+  
   protected boolean isGreenHSB(Pixel p, float idealHue, float idealSat, float idealBrightness) {
     if (VisionProcessor.detectionType == 0) {
       //final float PURE_GREEN = 120;

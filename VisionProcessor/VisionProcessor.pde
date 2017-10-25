@@ -53,7 +53,7 @@ boolean Verbose = false;
 
 //0 = area under two lines
 //1 = threshold for each value
-public static int detectionType = 0;
+public static int detectionType = 1;
 
 
 
