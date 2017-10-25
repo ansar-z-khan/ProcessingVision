@@ -30,7 +30,6 @@ public static float idealBrightness = 90;
 
 //used for detection method 1
 public static final float threshold = 20;
-
 //used for calculation of ranges
 public static final float SAT = -100;
 //actual max sat
@@ -42,7 +41,6 @@ public static final float BRIGHTNESS = 80;
 private final double maxBlobs = 1000;
 
 private int step = 0;
-
 
 private boolean frameByFrame = true;
 
@@ -87,7 +85,7 @@ void setup() {
 
   //VideoFinder foo = new VideoFinder(true);
   //delay(1000);
-
+  
 } 
 
 
@@ -126,7 +124,6 @@ void draw() {
     if (frameByFrame) {
       break;
     }
-
 
   case 1://Draws the raw image from the stream, get green Pixels 
     background(255);

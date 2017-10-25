@@ -7,7 +7,6 @@ protected class Finder {
   private float brightnessThreshold = 10;
 
 
-
   //This is the main function that should be called by other classes on the outside
   public ArrayList <Pixel> getPixels(PImage image) {
     //getMousePixel(image);
@@ -21,7 +20,6 @@ protected class Finder {
       for (int j = 0; j<img.height; j += pixelsToSkip) {//Iterate through Height
         Pixel currentPixel = new Pixel(i, j, img.get(i, j));//Store Current Pixel
         if (isGreenHSB(currentPixel, VisionProcessor.idealHue, VisionProcessor.idealSat, VisionProcessor.idealBrightness)) {//Check if pixel is green
-
           if (!greenPixels.contains(currentPixel) ) {
             greenPixels.add(currentPixel);//Add to the list of pixels
           }
@@ -89,7 +87,6 @@ protected class Finder {
            && p.getSaturation() < idealSat + satThreshold && p.getSaturation() > idealSat - satThreshold
            && p.getBrightness() < idealBrightness + brightnessThreshold && p.getBrightness() > idealBrightness - brightnessThreshold);
           
-
       
   }
 }

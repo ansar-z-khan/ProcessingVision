@@ -9,8 +9,8 @@ class Blob {
   private float density;
   private float area;
 
-
   private final float TOLERANCE = VisionProcessor.pixelsToSkip * 2;
+
 
   Blob(Pixel p) {
     pixels.add(p);

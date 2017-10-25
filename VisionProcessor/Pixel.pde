@@ -44,5 +44,4 @@ class Pixel {
   float getSquaredBlue() {
     return pow(blue(colour), 2);
   }
-
 }
