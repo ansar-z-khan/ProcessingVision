@@ -101,12 +101,19 @@ class Blob {
     // fill(255 - (255*density));
     noFill();
     stroke(0);
-    
-    PVector shiftedMinPos = new PVector(minBounds.x + width/2 - capture.getCurrentImage().width/2, minBounds.y + height/2 - capture.getCurrentImage().height/2);
-    PVector shiftedMaxPos = new PVector(maxBounds.x + width/2 - capture.getCurrentImage().width/2, maxBounds.y + height/2 - capture.getCurrentImage().height/2);
-    rect(shiftedMinPos.x, shiftedMinPos.y, shiftedMaxPos.x, shiftedMaxPos.y);
-    text(getWidth() + "x" + getHeight(), 20, height*0.8);
-   // rect(minBounds.x + width/2, minBounds.y, maxBounds.x + width/2, maxBounds.y);
+    if (VisionProcessor.runType == RunType.PC) {
+       //Pixel topLeft = pixels.get(0);
+      //Pixel bottomRight = pixels.get(pixels.size()-1);
+      // fill(255 - (255*density));
+      rect(minBounds.x, minBounds.y, maxBounds.x, maxBounds.y);
+      rect(minBounds.x + width/2, minBounds.y, maxBounds.x + width/2, maxBounds.y);
+    } else if (VisionProcessor.runType == RunType.ANDROID) {
+      PVector shiftedMinPos = new PVector(minBounds.x + width/2 - capture.getCurrentImage().width/2, minBounds.y + height/2 - capture.getCurrentImage().height/2);
+      PVector shiftedMaxPos = new PVector(maxBounds.x + width/2 - capture.getCurrentImage().width/2, maxBounds.y + height/2 - capture.getCurrentImage().height/2);
+      rect(shiftedMinPos.x, shiftedMinPos.y, shiftedMaxPos.x, shiftedMaxPos.y);
+      text(getWidth() + "x" + getHeight(), 20, height*0.8);
+      // rect(minBounds.x + width/2, minBounds.y, maxBounds.x + width/2, maxBounds.y);
+    }
   }
   ///DO NOT USE THIS
   void show(int red, int green, int blue) {

@@ -1,3 +1,4 @@
+/*
 class AndroidVideoFinder extends Finder {
 
   private KetaiCamera cam;
@@ -40,4 +41,4 @@ class AndroidVideoFinder extends Finder {
   ArrayList <Pixel> getGreenPixels() {
     return getPixels(cam);
   }
-}
+}*/

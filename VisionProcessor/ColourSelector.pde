@@ -28,11 +28,28 @@ class ColourSelector {
       }
     }
   }
+  
+  void selectColour(PImage image) {
+    if (mousePressed) {
+      Pixel currentPixel = new Pixel(mouseX-width/2, mouseY, image.get(mouseX-width/2, mouseY));
+      VisionProcessor.idealHue = currentPixel.getHue();
+      idealSat = currentPixel.getSaturation();
+      idealBrightness = currentPixel.getBrightness();
+      println("** ideal: hue = " + idealHue + " sat = " + idealSat + " brightness = " + idealBrightness + " **");
+      if (frameByFrame) {
+        step++;
+      }
+    }
+  }
+  
+  
 }
+
+
 
 void changeState() {
   previewCapture = null;
-  capture = new AndroidVideoFinder(WIDTH, HEIGHT); 
+  capture = new VideoFinder(WIDTH, HEIGHT, true); 
   step++;
 }
 
@@ -41,3 +58,27 @@ void mouseReleased() {
     changeState();
   }
 }
+
+
+
+void pcPreview () {
+  capture.updateImage();//Get New Image From Camera
+  capture.drawImage(width/2, 0);//Draw Image
+  PImage image = capture.getCurrentImage();
+  
+  println("select pixel");
+  
+  selector.selectColour(image);
+  
+}
+
+
+void androidPreview() {
+  selector.updateButton();
+  selector.drawButton();
+  previewCapture.updateImage();//Get New Image From Camera
+  previewCapture.drawPreviewImage();//Draw Image
+  selector.selectColour(new PImage() );
+  
+}
+  
