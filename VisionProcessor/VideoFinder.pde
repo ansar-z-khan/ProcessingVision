@@ -11,7 +11,7 @@ class VideoFinder extends Finder {
   private PImage lastImage;
 
   private int repeatCounter = 0;
-  
+
   private RunType runType;
 
 
@@ -40,7 +40,7 @@ class VideoFinder extends Finder {
   //android mode
   VideoFinder(int _width, int _height, boolean isAndroid) {
     androidCam = new KetaiCamera(VisionProcessor.this, _width, _height, 30 );   
-    androidCam.setPhotoSize(_width,_height);
+    androidCam.setPhotoSize(_width, _height);
     androidCam.autoSettings();
     androidCam.start();
     runType = RunType.ANDROID;
@@ -53,6 +53,7 @@ class VideoFinder extends Finder {
   }
   //Gets newest Image From Camera
   void updateImage() {
+    println("Beginning Update Image");
     if (runType == RunType.PC) {
       if (cam.available() == true) {
         cam.read();
@@ -69,10 +70,12 @@ class VideoFinder extends Finder {
           frozen();
         }
       }
-      
     } else if (runType == RunType.ANDROID) {
-      androidCam.read();
-      currentImage = androidCam;
+        println("Before Read");
+        androidCam.read();
+        println("After Read");
+        currentImage = androidCam;
+
     }
   }
 
@@ -91,15 +94,14 @@ class VideoFinder extends Finder {
     //image(lastImage, 0, 0);
     image(currentImage, width/2, (height/2));
   }
-  
+
   void drawPreviewImage() {
     //image(lastImage, 0, 0);
     pushMatrix();
-    translate(width/2,height/2);
+    translate(width/2, height/2);
     rotate(90*PI/180);
-    
-    image(currentImage,0,0);
-    point(0,0);
+
+    image(currentImage, 0, 0);
     popMatrix();
   }
 
@@ -107,7 +109,7 @@ class VideoFinder extends Finder {
     String[] cameras = Capture.list();
     if (CaptureList.length == 0) {
       println("There are no cameras available for capture.");
-      exit();
+      //exit();
     } else {
       println("Available cameras:");
       for (int i = 0; i < cameras.length; i++) {
@@ -122,10 +124,8 @@ class VideoFinder extends Finder {
 
   /*
   void onCameraPreviewEvent()
-  {
-    cam.read();
+   {
+   cam.read();
    
-  }*/
-  
-
+   }*/
 }

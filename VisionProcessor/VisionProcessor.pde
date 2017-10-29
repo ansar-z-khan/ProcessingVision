@@ -33,7 +33,7 @@ private VideoFinder previewCapture;
 private ColourSelector selector;
 
 private ArrayList<Blob> blobs = new ArrayList<Blob>();
-private ArrayList<Pixel> greenPixels = new ArrayList<Pixel>();
+      private ArrayList<Pixel> greenPixels = new ArrayList<Pixel>();
 
 private BlobProcessor blobProcessor = new BlobProcessor(blobs);
 //Low Number = More Stuff
@@ -47,6 +47,7 @@ public static final int HEIGHT = 200;
 public static float idealHue = 175;
 public static float idealSat = 70;
 public static float idealBrightness = 90;
+public static color idealColour;
 
 //used for detection method 1
 public static final float threshold = 20;
@@ -112,6 +113,7 @@ void setup() {
     capture = new VideoFinder(21);
   } else if (runType == RunType.ANDROID) {
     previewCapture = new VideoFinder(1280, 960, true);
+    //capture = new VideoFinder(WIDTH, HEIGHT, true);
   }
   
   selector = new ColourSelector();
@@ -142,7 +144,6 @@ void draw() {
   }
 */
 
-
   switch(step) {
     
   case 0: //get raw image and tune to selected pixel
@@ -159,12 +160,15 @@ void draw() {
     }
 
   case 1://Draws the raw image from the stream, get green Pixels 
+    
     background(255);
     if (runType == RunType.PC) {
       capture.updateImage();//Get New Image From Camera
       capture.drawImage(width/2, 0);//Draw Image
     } else if (runType == RunType.ANDROID) {
+      println("Before Update");
       capture.updateImage();//Get New Image From Camera
+      println("After Update");
       capture.drawPreviewImage();//Draw Image
     }
 
