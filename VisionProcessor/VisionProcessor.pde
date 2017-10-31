@@ -10,6 +10,7 @@ import ketai.sensors.*;
 import ketai.ui.*;
 
 
+
   //************************************************** previous master code below, android code above ************************************
 
 /*
@@ -170,6 +171,7 @@ void draw() {
       capture.updateImage();//Get New Image From Camera
       println("After Update");
       capture.drawPreviewImage();//Draw Image
+     
     }
 
     for (Blob b : blobs) {
