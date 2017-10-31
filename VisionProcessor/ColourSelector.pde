@@ -55,7 +55,7 @@ class ColourSelector {
       if (runType == RunType.PC) {
         currentPixel = new Pixel(mouseX-width/2, mouseY, image.get(mouseX-width/2, mouseY));
       } else if (runType == RunType.ANDROID) {
-        currentPixel = new Pixel(int (mouseX-topLeftCorner.x), int (mouseY-topLeftCorner.y), image.get(int (mouseY-topLeftCorner.y), int (mouseX-topLeftCorner.x)));
+        currentPixel = new Pixel(int (image.width-(mouseX-topLeftCorner.x) ), int (mouseY-topLeftCorner.y), image.get(int (mouseY-topLeftCorner.y), int (image.width-(mouseX-topLeftCorner.x) ) ) );
         /*pushMatrix();
         translate(topLeftCorner.x,topLeftCorner.y);
         point(0,0);
