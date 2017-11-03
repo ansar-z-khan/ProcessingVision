@@ -49,7 +49,12 @@ class VideoFinder extends Finder {
 
 
   ArrayList <Pixel> getGreenPixels() {
-    return getPixels(cam);
+    if(runType == RunType.PC){
+      return getPixels(cam);
+    }
+    else{
+      return getPixels(androidCam);
+    }
   }
   //Gets newest Image From Camera
   void updateImage() {
@@ -77,6 +82,7 @@ class VideoFinder extends Finder {
         currentImage = androidCam;
 
     }
+    println("END OF Update Image");
   }
 
   void frozen() {

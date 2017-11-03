@@ -11,7 +11,7 @@ import ketai.ui.*;
 
 
 
-  //************************************************** previous master code below, android code above ************************************
+//************************************************** previous master code below, android code above ************************************
 
 /*
 Pseudocode
@@ -26,15 +26,15 @@ Pseudocode
  - isGreen
  
  */
- 
-//This VideoFinder Class takes care of all the video and the detection of green
-private VideoFinder capture;
-private VideoFinder previewCapture;
 
+//This VideoFinder Class takes care of all the video and the detection of green
+ private VideoFinder capture;
+private VideoFinder previewCapture;
+//Capture Res: 176,144
 private ColourSelector selector;
 
 private ArrayList<Blob> blobs = new ArrayList<Blob>();
-      private ArrayList<Pixel> greenPixels = new ArrayList<Pixel>();
+private ArrayList<Pixel> greenPixels = new ArrayList<Pixel>();
 
 private BlobProcessor blobProcessor = new BlobProcessor(blobs);
 //Low Number = More Stuff
@@ -77,13 +77,14 @@ public static int detectionType = 1;
 
 // ** also change size()
 public enum RunType {
-  PC,
-  ANDROID
+  PC, 
+    ANDROID
 }
 
 static RunType runType = RunType.ANDROID;
 
 void setup() {
+  frameRate(30);
   //size(160, 45);//change this according to your camera resolution, and double the width
   //pc mode
   //size(320, 120);
@@ -101,22 +102,22 @@ void setup() {
   //Winnie's webcam
   //capture = new VideoFinder(8);   //15fps
   //capture = new VideoFinder(9);   //30fps
-  
+
   //Robot Cam on Mac
   //capture = new VideoFinder(12);
   //Robot cam on windows
   //capture = new VideoFinder(21);
-  
+
   //Druiven's cam
   //capture = new VideoFinder(3);  //30fps
-  
+
   if (runType == RunType.PC) {
     capture = new VideoFinder(21);
   } else if (runType == RunType.ANDROID) {
     previewCapture = new VideoFinder(1280, 960, true);
     //capture = new VideoFinder(WIDTH, HEIGHT, true);
   }
-  
+
   selector = new ColourSelector();
 
   rectMode(CORNERS);
@@ -131,7 +132,6 @@ void setup() {
 
   //VideoFinder foo = new VideoFinder(true);
   //delay(1000);
-  
 } 
 
 
@@ -140,13 +140,13 @@ void setup() {
 void draw() {  
   /*
   if (!operational && millis() > 7000) {
-    //add commands in case that video provides blank output
-    //exit();
-  }
-*/
+   //add commands in case that video provides blank output
+   //exit();
+   }
+   */
 
   switch(step) {
-    
+
   case 0: //get raw image and tune to selected pixel
     background(255);
 
@@ -155,23 +155,20 @@ void draw() {
     } else if (runType == RunType.ANDROID) {
       androidPreview();
     }
-    
+
     if (frameByFrame) {
       break;
     }
 
   case 1://Draws the raw image from the stream, get green Pixels 
-    
+
     background(255);
     if (runType == RunType.PC) {
       capture.updateImage();//Get New Image From Camera
       capture.drawImage(width/2, 0);//Draw Image
     } else if (runType == RunType.ANDROID) {
-      println("Before Update");
       capture.updateImage();//Get New Image From Camera
-      println("After Update");
       capture.drawPreviewImage();//Draw Image
-     
     }
 
     for (Blob b : blobs) {
@@ -181,13 +178,18 @@ void draw() {
     }
     displayGreen(greenPixels);//Draw Green Pixels
     blobs.clear();
-    greenPixels = capture.getGreenPixels();
-    
+    try {
+      greenPixels = capture.getGreenPixels();
+    }
+    catch(Exception e) {
+      e.printStackTrace();
+    }
+
     /*
     if (!operational && millis() < 5000 && greenPixels.size() != 0) {
-      operational = true;
-    }
-    */
+     operational = true;
+     }
+     */
     if (frameByFrame) {
       step++;
       break;
@@ -208,22 +210,22 @@ void draw() {
     //println("amount of pixels added = " + timesAdded);
     /*
     if (timesAdded != greenPixels.size() ) {
-      println("amount of pixels added = " + timesAdded);
-      delay(1000);
-    }*/
+     println("amount of pixels added = " + timesAdded);
+     delay(1000);
+     }*/
 
     blobProcessor.process();
-    
+
     //println("end of case");
     if (frameByFrame) {
       step=1;
       break;
     }
   }
-  if (Verbose){
+  if (Verbose) {
     println(blobs.size() + " blobs and " + greenPixels.size() + " pixels");
   }
-//  delay(5000);
+  //  delay(5000);
   /*
   for (Pixel p : greenPixels) {
    for (Blob b : blobs){
@@ -295,7 +297,7 @@ private void addBlob (int blob, int pixel, ArrayList<Boolean> blobCheck) {
    }
    } else {
    addBlob(blob, pixel+1);
-  }*/
+   }*/
 
   //next pixel
   if (blob == blobs.size()-1) {
@@ -305,12 +307,11 @@ private void addBlob (int blob, int pixel, ArrayList<Boolean> blobCheck) {
       //next blob
       addBlob(blob+1, pixel, blobCheck);
     } else {
-      if (pixel == greenPixels.size()-1){
+      if (pixel == greenPixels.size()-1) {
         return;
       }
 
       addBlob(0, pixel+1, blobCheck);
     }
   }
-
 }

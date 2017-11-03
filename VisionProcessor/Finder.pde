@@ -15,6 +15,7 @@ protected class Finder {
   //Gets Green Pixels
   protected ArrayList <Pixel> findGreenPixels(PImage img) {
     ArrayList <Pixel> greenPixels = new ArrayList<Pixel>();//Declare a templist for pixels found
+
     for (int i = 0; i<img.width; i += pixelsToSkip) {//Iterate throough width
       for (int j = 0; j<img.height; j += pixelsToSkip) {//Iterate through Height
         Pixel currentPixel = new Pixel(i, j, img.get(i, j));//Store Current Pixel

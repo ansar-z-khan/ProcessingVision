@@ -72,7 +72,7 @@ class ColourSelector {
       }
       // currentPixel = new Pixel(50,50,(image.get(50,50)));
       stroke(255, 255, 255);
-      strokeWeight(10);
+     // strokeWeight(10);
       VisionProcessor.idealHue = currentPixel.getHue();
       idealSat = currentPixel.getSaturation();
       idealBrightness = currentPixel.getBrightness();
@@ -91,15 +91,19 @@ class ColourSelector {
 
 
 void changeState() {
-  previewCapture = null;
+ // previewCapture = null;
+ println("CALLING CONSTRUCTOR");
   capture = new VideoFinder(WIDTH, HEIGHT, true); 
   println("******Changing State******");
-  step++;
+  step=1;
 }
 
 void mouseReleased() {
+  println("mouseReleased");
   if (selector.pressingDown && step == 0) {
+    println("Calling Change State");
     changeState();
+     println("After Change State");
   }
 }
 

@@ -102,15 +102,24 @@ class Blob {
     noFill();
     stroke(0);
     if (VisionProcessor.runType == RunType.PC) {
-       //Pixel topLeft = pixels.get(0);
+      //Pixel topLeft = pixels.get(0);
       //Pixel bottomRight = pixels.get(pixels.size()-1);
       // fill(255 - (255*density));
       rect(minBounds.x, minBounds.y, maxBounds.x, maxBounds.y);
       rect(minBounds.x + width/2, minBounds.y, maxBounds.x + width/2, maxBounds.y);
     } else if (VisionProcessor.runType == RunType.ANDROID) {
-      PVector shiftedMinPos = new PVector(minBounds.x + width/2 - capture.getCurrentImage().width/2, minBounds.y + height/2 - capture.getCurrentImage().height/2);
-      PVector shiftedMaxPos = new PVector(maxBounds.x + width/2 - capture.getCurrentImage().width/2, maxBounds.y + height/2 - capture.getCurrentImage().height/2);
-      rect(shiftedMinPos.x, shiftedMinPos.y, shiftedMaxPos.x, shiftedMaxPos.y);
+
+      PVector shiftedMinPos = new PVector(minBounds.y + width/2 - capture.getCurrentImage().height/2, minBounds.x + height/2 - capture.getCurrentImage().width/2);
+      PVector shiftedMaxPos = new PVector(maxBounds.y + width/2 - capture.getCurrentImage().height/2, maxBounds.x + height/2 - capture.getCurrentImage().width/2);
+      pushMatrix();
+      rectMode(CENTER);
+      translate(((shiftedMinPos.x+getRealWidth()/2)), (shiftedMinPos.y+getRealHeight()/2));
+      //rotate(HALF_PI);
+      rect(0,0,getRealWidth(), getRealHeight());
+      rectMode(CORNERS);
+      //);
+      popMatrix();
+      //rect(shiftedMinPos.x, shiftedMinPos.y, shiftedMaxPos.x, shiftedMaxPos.y);
       text(getWidth() + "x" + getHeight(), 20, height*0.8);
       // rect(minBounds.x + width/2, minBounds.y, maxBounds.x + width/2, maxBounds.y);
     }
@@ -125,16 +134,22 @@ class Blob {
     ///DO NOT USE THIS
     PVector shiftedMinPos = new PVector(minBounds.x + width/2, minBounds.y + height/2);
     PVector shiftedMaxPos = new PVector(maxBounds.x + width/2, maxBounds.y + height/2);
-    
+
     rect(shiftedMinPos.x, shiftedMinPos.y, shiftedMaxPos.x, shiftedMaxPos.y);
     stroke(0);
   }
 
-  double getWidth() {
+  float getWidth() {
     return maxBounds.x - minBounds.x;
   }
-  double getHeight() {
+  float getHeight() {
     return maxBounds.y - minBounds.y;
+  }
+  float getRealWidth() {
+    return maxBounds.y - minBounds.y;
+  }
+  float getRealHeight() {
+    return maxBounds.x - minBounds.x;
   }
 
   void setDeleted() {
@@ -148,7 +163,8 @@ class Blob {
   void update() {
     updateSize();
     updateDensity();
-    
   }
-
+  PVector swapVector(PVector pos) {
+    return new PVector(pos.y, pos.x);
+  }
 }
