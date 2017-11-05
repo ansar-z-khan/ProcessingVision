@@ -1,3 +1,5 @@
+//this tab is used for pseudocode and general testing of random code
+
 /*Pseudocode
  - pixel class
    - takes in 2d array of pixels
