@@ -53,17 +53,15 @@ protected class Finder {
     return greenPixels;
   }
 
-<<<<<<< HEAD
   //Checks if a given pixel is green using RGB
   //Requires: 
         //Pixel p: Pixel to check
         //double threshold: Threshold to allow different sensitivity
    //Returns whether or not a pixel is green
-=======
+
   //determines whether the pixel in question is green or not
   //uses RGB values
   //takes in a pixel and the threshold, returns a boolean
->>>>>>> origin/ColourSelectionOnAndroid
   protected boolean isGreen(Pixel p, double threshold) {
     //green must be the dominant colour and be greater or equal to 50
     if (p.getGreen() <= p.getRed() || p.getGreen() <= p.getBlue() || p.getGreen()<=50 ) {
@@ -77,7 +75,6 @@ protected class Finder {
     //squares all the values and sees if the ratio of green to red and green to blue exceed the specified threshold
     return (p.getSquaredGreen()/p.getSquaredRed() >= threshold/100 && p.getSquaredGreen()/p.getSquaredBlue() >= threshold/100);
   }
-<<<<<<< HEAD
     //Checks if a given pixel is green using HSB
   //Requires: 
         //Pixel p: Pixel to check
@@ -85,12 +82,6 @@ protected class Finder {
         //double idealSat:Preffered val to look for
         //double idealBrightness:Preffered val to look for
    //Returns whether or not a pixel is green
-=======
-  
-  //determines whether the pixel in question is green or not
-  //uses HSV values
-  //takes in the pixel and idea properties of the pixel
->>>>>>> origin/ColourSelectionOnAndroid
   protected boolean isGreenHSB(Pixel p, float idealHue, float idealSat, float idealBrightness) {
     //two different methods of determination
     //first method creates a trapezoid on the 2D colour grid of HSV using ideal hues and sees if the pixel is within that trapezoid
