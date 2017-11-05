@@ -12,7 +12,10 @@ protected class Finder {
     return findGreenPixels(image);
   }
 
-  //Gets Green Pixels
+  //Goes through all pixels in an image and returns the green ones
+  //Requires: PImage img: image to look through
+  //Returns: An array list of pixels determined to be green
+  
   protected ArrayList <Pixel> findGreenPixels(PImage img) {
     ArrayList <Pixel> greenPixels = new ArrayList<Pixel>();//Declare a templist for pixels found
 
@@ -36,7 +39,11 @@ protected class Finder {
     return greenPixels;
   }
 
-  //Checks if a gicen p
+  //Checks if a given pixel is green using RGB
+  //Requires: 
+        //Pixel p: Pixel to check
+        //double threshold: Threshold to allow different sensitivity
+   //Returns whether or not a pixel is green
   protected boolean isGreen(Pixel p, double threshold) {
     if (p.getGreen() <= p.getRed() || p.getGreen() <= p.getBlue() || p.getGreen()<=50 ) {
       return false;
@@ -49,7 +56,13 @@ protected class Finder {
 
     return (p.getSquaredGreen()/p.getSquaredRed() >= threshold/100 && p.getSquaredGreen()/p.getSquaredBlue() >= threshold/100);
   }
-  
+    //Checks if a given pixel is green using HSB
+  //Requires: 
+        //Pixel p: Pixel to check
+        //double idealHue:Preffered val to look for
+        //double idealSat:Preffered val to look for
+        //double idealBrightness:Preffered val to look for
+   //Returns whether or not a pixel is green
   protected boolean isGreenHSB(Pixel p, float idealHue, float idealSat, float idealBrightness) {
     if (VisionProcessor.detectionType == 0) {
       //final float PURE_GREEN = 120;

@@ -4,24 +4,25 @@ import java.util.*;
 
 class VideoFinder extends Finder {
 
-  private Capture cam;
-  private KetaiCamera androidCam;
-  private int camNumber = 0;
-  private PImage currentImage;
+  private Capture cam;//Camera Object for PC
+  private KetaiCamera androidCam;//Camer Object for Android
+  private int camNumber = 0;//THe current Index of camera to use
+  private PImage currentImage;//Most recent image received
   private PImage lastImage;
 
-  private int repeatCounter = 0;
+  private int repeatCounter = 0;//Used to count how many times a image is repeated
 
   private RunType runType;
 
 
-  //Call This Constructor to print out all cameras, The code will crash, but choose the camera you want and call the constructor with the int
+  //Call This Constructor to print out all cameras
   VideoFinder(boolean getCamNumber) {
     printAvailableCams(Capture.list());
     camNumber = 0;
   }
 
-  //pc mode
+  //PC Mode Constructor:
+    //Requires: Index of camera to use, call the constructor above to know what to pass in
   VideoFinder(int camNum) {
     camNumber = camNum;
     String[] cameras = Capture.list();
@@ -38,7 +39,9 @@ class VideoFinder extends Finder {
   }
 
   //android mode
-  VideoFinder(int _width, int _height, boolean isAndroid) {
+    //Requires: Width of View Finder
+              //Height of VIew Finder
+  VideoFinder(int _width, int _height) {
     androidCam = new KetaiCamera(VisionProcessor.this, _width, _height, 30 );   
     androidCam.setPhotoSize(_width, _height);
     androidCam.autoSettings();
@@ -47,7 +50,7 @@ class VideoFinder extends Finder {
   }
 
 
-
+  //Return an array of all green pixels on screen
   ArrayList <Pixel> getGreenPixels() {
     if(runType == RunType.PC){
       return getPixels(cam);
@@ -85,22 +88,29 @@ class VideoFinder extends Finder {
     println("END OF Update Image");
   }
 
+  //To be called if camera stops updating
   void frozen() {
     //exit();
     //println("The Image has not updated for the last " + cam.frameRate * 30 + " frames, exitting");
   }
 
   //pc mode
+  //Draws Current Image On Screen
+  //Requires: x: x position of image;
+            //y: y position of image
+    
   void drawImage(float x, float y) {
     //image(lastImage, 0, 0);
     image(currentImage, x, y);
   }
   //android mode
+  //Draws image in center of screen
   void drawImage() {
     //image(lastImage, 0, 0);
     image(currentImage, width/2, (height/2));
   }
 
+  //Draws image after roating, since Ketai returns image sideways
   void drawPreviewImage() {
     //image(lastImage, 0, 0);
     pushMatrix();
@@ -110,7 +120,7 @@ class VideoFinder extends Finder {
     image(currentImage, 0, 0);
     popMatrix();
   }
-
+  //Used to print out all camera Processing detec
   void printAvailableCams(String[] CaptureList) {
     String[] cameras = Capture.list();
     if (CaptureList.length == 0) {

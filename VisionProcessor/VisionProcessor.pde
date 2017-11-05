@@ -11,28 +11,17 @@ import ketai.ui.*;
 
 
 
-//************************************************** previous master code below, android code above ************************************
 
-/*
-Pseudocode
- - pixel class
- - takes in 2d array of pixels
- - properties:
- - green threshold
- - frequency
- - ArrayList of green pixels
- - methods
- - getGreenPixels
- - isGreen
- 
- */
+
 
 //This VideoFinder Class takes care of all the video and the detection of green
- private VideoFinder capture;
+private VideoFinder capture;
 private VideoFinder previewCapture;
 //Capture Res: 176,144
 private ColourSelector selector;
 
+
+//Declare Neccecary Variables
 private ArrayList<Blob> blobs = new ArrayList<Blob>();
 private ArrayList<Pixel> greenPixels = new ArrayList<Pixel>();
 
@@ -110,11 +99,11 @@ void setup() {
 
   //Druiven's cam
   //capture = new VideoFinder(3);  //30fps
-
+  //COnstruct Neccecary Variables
   if (runType == RunType.PC) {
     capture = new VideoFinder(21);
   } else if (runType == RunType.ANDROID) {
-    previewCapture = new VideoFinder(1280, 960, true);
+    previewCapture = new VideoFinder(1280, 960);
     //capture = new VideoFinder(WIDTH, HEIGHT, true);
   }
 
@@ -145,11 +134,13 @@ void draw() {
    }
    */
 
+  //This Switch statement is used to split calculations between frames
   switch(step) {
 
   case 0: //get raw image and tune to selected pixel
     background(255);
 
+    //Calls functions for previewing image
     if (runType == RunType.PC) {
       pcPreview();
     } else if (runType == RunType.ANDROID) {
@@ -172,18 +163,15 @@ void draw() {
     }
 
     for (Blob b : blobs) {
-      b.show();
+      b.show();//Show All Blobs
       //println (b.pixels.size() + ", " + greenPixels.size());
       //b.clear();
     }
     displayGreen(greenPixels);//Draw Green Pixels
-    blobs.clear();
-    try {
-      greenPixels = capture.getGreenPixels();
-    }
-    catch(Exception e) {
-      e.printStackTrace();
-    }
+    blobs.clear();//Clear List of Current BLobs
+
+    greenPixels = capture.getGreenPixels();//Calculate green pixels
+
 
     /*
     if (!operational && millis() < 5000 && greenPixels.size() != 0) {
@@ -214,7 +202,7 @@ void draw() {
      delay(1000);
      }*/
 
-    blobProcessor.process();
+    blobProcessor.process();//Handle Processing of Blobs
 
     //println("end of case");
     if (frameByFrame) {
@@ -240,7 +228,11 @@ void draw() {
    }*/
 }
 
-private void displayGreen(ArrayList <Pixel> pixels) {
+//Used to display all green pixels on screen
+//Requires:
+  //ArrayList<Pixel> pixels: used to determine which pixels to draw
+
+private void displayGreen(ArrayList<Pixel> pixels) {
   if (runType == RunType.PC) {
     for (Pixel p : pixels) {
       stroke(p.getColour());//Set color to that of the pixel
@@ -257,7 +249,12 @@ private void displayGreen(ArrayList <Pixel> pixels) {
   }
 }
 
-//int timesAdded;
+//Calculate blobs by recursivley checking each blob with each pixels 
+//Requires:
+  //int blob: Which index of blobs needs to be verified
+  //int pixel: Which index of greenPixels needs to be verified
+  //ArrayList<Boolean> blobCheck: Used to prevent double counting
+  
 private void addBlob (int blob, int pixel, ArrayList<Boolean> blobCheck) {
   //println ("Blob " + blob + "/" +  (blobs.size()-1) + ": Pixel " + pixel + "/" +  (greenPixels.size()-1));
   //println("blob = " + blob + " blob size = " + blobs.size() + " pixel = " + pixel + " size = " + greenPixels.size() );

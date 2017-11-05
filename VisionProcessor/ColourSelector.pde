@@ -1,8 +1,12 @@
 class ColourSelector {
+ 
+  //Button Vectors
   PVector buttonPos;
   PVector buttonSize;
+  //Used to determine if button is being pressed
   boolean pressingDown;
-  private PVector topLeftCorner = new PVector(0, 0);
+  
+  private PVector topLeftCorner; 
 
 
 
@@ -10,12 +14,14 @@ class ColourSelector {
     buttonSize = new PVector(800, 300);
     buttonPos = new PVector(width/2-(buttonSize.x/2), height*0.80);
     idealColour = color(idealHue, idealSat, idealBrightness);
+    topLeftCorner = new PVector(0, 0);
     /*  if (runType == RunType.ANDROID) {
      topLeftCorner = new PVector(width/2, height/2);
      topLeftCorner.x -= previewCapture.currentImage.width/2;
      topLeftCorner.y -= previewCapture.currentImage.height/2;
      }*/
   }
+  //Draws button
   void drawButton() {
     stroke(170, 255, 255);
     if (pressingDown) {
@@ -28,6 +34,7 @@ class ColourSelector {
     textSize(buttonSize.y*0.65);
     text("Proceed", buttonPos.x+35, buttonPos.y+buttonSize.y*0.75);
   }
+  //Checks if button has been pressed
   void updateButton() {
     if (mousePressed) {
       if (mouseX>buttonPos.x && mouseX < buttonPos.x + buttonSize.x
@@ -36,7 +43,7 @@ class ColourSelector {
       }
     }
   }
-
+  //Draws rectangle showing the color that has been selected
   void showColour() {
     fill(idealColour);
     rectMode(CENTER);
@@ -44,8 +51,11 @@ class ColourSelector {
     rectMode(CORNERS);
   }
 
+  //Checks if an image has been clicked and a color has been selected
+  //Requires: PIMage image: Image to check whether or not it has been clicked
+  //Sets ideal color to what has been clicked
   void selectColour(PImage image) {
-
+    
     if (runType == RunType.ANDROID) {
       topLeftCorner = new PVector(width/2, height/2);
       topLeftCorner.y -= previewCapture.currentImage.width/2;
@@ -89,11 +99,11 @@ class ColourSelector {
 }
 
 
-
+//Used to change from the preview state to the calculations stage
 void changeState() {
  // previewCapture = null;
  println("CALLING CONSTRUCTOR");
-  capture = new VideoFinder(WIDTH, HEIGHT, true); 
+  capture = new VideoFinder(WIDTH, HEIGHT); 
   println("******Changing State******");
   step=1;
 }
@@ -108,7 +118,7 @@ void mouseReleased() {
 }
 
 
-
+//Handles the preview screen for PC mode
 void pcPreview () {
   capture.updateImage();//Get New Image From Camera
   capture.drawImage(width/2, 0);//Draw Image
@@ -117,7 +127,7 @@ void pcPreview () {
   selector.selectColour(image);
 }
 
-
+//Handles previes screen for andrpoid mode
 void androidPreview() {
   previewCapture.updateImage();//Get New Image From Camera
   previewCapture.drawPreviewImage();//Draw Image
