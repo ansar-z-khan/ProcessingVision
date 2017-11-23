@@ -70,15 +70,15 @@ public enum RunType {
     ANDROID
 }
 
-static RunType runType = RunType.ANDROID;
+static RunType runType = RunType.PC;
 
 void setup() {
   frameRate(30);
   //size(160, 45);//change this according to your camera resolution, and double the width
   //pc mode
-  //size(320, 120);
+  size(320, 120);
   //android mode
-  size(displayWidth, displayHeight);
+  //size(displayWidth, displayHeight);
 
   frameRate(30);
   //Pass the Index of the Camera in the Constructor

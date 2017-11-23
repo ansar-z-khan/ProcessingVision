@@ -90,7 +90,12 @@ class ColourSelector {
 
       println("** ideal: hue = " + idealHue + " sat = " + idealSat + " brightness = " + idealBrightness + " **");
       println(currentPixel.pos.x, currentPixel.pos.y);
-      selector.showColour();
+      if (runType == RunType.ANDROID) {
+        selector.showColour();
+      } else if (runType == RunType.PC) {
+        step++;
+      }
+      
       if (frameByFrame) {
         // step++;
       }
